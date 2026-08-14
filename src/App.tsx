@@ -11,6 +11,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/projects/:slug" element={<Home />} />
         <Route path="/full" element={<Full />} />
+        <Route path="/full/projects/:slug" element={<Full />} />
       </Routes>
     </>
   )

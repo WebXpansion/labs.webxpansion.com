@@ -11,10 +11,16 @@ CustomEase.create('osmo-ease', '0.625, 0.05, 0, 1')
 
 interface ProjectOverlayProps {
   project: Project | null
+  /** Where to go when the overlay is closed. Defaults to the home/featured
+   *  page — pass a custom handler (e.g. `() => navigate('/full')`) when the
+   *  overlay was opened from a different listing page, so closing returns
+   *  there instead. */
+  onClose?: () => void
 }
 
-export function ProjectOverlay({ project }: ProjectOverlayProps) {
+export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const navigate = useNavigate()
+  const handleClose = onClose ?? (() => navigate('/'))
   const titleRef = useRef<HTMLHeadingElement>(null)
   const descRef = useRef<HTMLParagraphElement>(null)
 
@@ -81,7 +87,7 @@ export function ProjectOverlay({ project }: ProjectOverlayProps) {
           }}
         >
           <button
-            onClick={() => navigate('/')}
+            onClick={handleClose}
             aria-label="Close"
             className="project-overlay-close"
             style={{
