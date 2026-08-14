@@ -10,7 +10,6 @@ import { isMobileDevice } from '../utils/device'
 export function Home() {
   const navigate = useNavigate()
   const { slug } = useParams()
-  const [hint, setHint] = useState(true)
   const [isMobile] = useState(isMobileDevice)
 
   const activeProject: Project | null = useMemo(
@@ -34,33 +33,7 @@ export function Home() {
         <Scene onSelect={handleSelect} dimmed={!!activeProject} />
       )}
 
-      {!isMobile && hint && !activeProject && (
-        <div
-          onAnimationEnd={() => setHint(false)}
-          style={{
-            position: 'fixed',
-            top: 90,
-            right: 40,
-            zIndex: 20,
-            fontFamily: "'Helvetica Neue', Arial, sans-serif",
-            fontSize: 12,
-            letterSpacing: '0.08em',
-            color: 'rgba(255,255,255,0.6)',
-            pointerEvents: 'none',
-            animation: 'fadeOutHint 1s ease 4s forwards',
-          }}
-        >
-          DRAG TO EXPLORE
-        </div>
-      )}
-
       <ProjectOverlay project={activeProject} />
-
-      <style>{`
-        @keyframes fadeOutHint {
-          to { opacity: 0; }
-        }
-      `}</style>
     </div>
   )
 }

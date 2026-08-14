@@ -1,10 +1,14 @@
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { ContactOverlay } from './Overlay/ContactOverlay'
 
 export function Header() {
   const location = useLocation()
   const isFull = location.pathname.startsWith('/full')
+  const [contactOpen, setContactOpen] = useState(false)
 
   return (
+    <>
     <header
       style={{
         position: 'fixed',
@@ -31,6 +35,7 @@ export function Header() {
           textDecoration: 'none',
           pointerEvents: 'auto',
           textTransform: 'uppercase',
+          fontSize: 11,
         }}
       >
         WebXpansion Labs
@@ -42,17 +47,18 @@ export function Header() {
             to="/"
             style={{ color: isFull ? 'rgba(255,255,255,0.4)' : '#fff', textDecoration: 'none' }}
           >
-            FEATURED
+            À LA UNE
           </Link>
           <span style={{ opacity: 0.4 }}>/</span>
           <Link
             to="/full"
             style={{ color: isFull ? '#fff' : 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
           >
-            FULL
+            LISTE
           </Link>
         </div>
         <button
+          onClick={() => setContactOpen(true)}
           style={{
             background: 'none',
             border: 'none',
@@ -69,17 +75,24 @@ export function Header() {
       </div>
 
       <style>{`
+        .header-nav-links {
+          position: fixed !important;
+          top: 28px !important;
+          bottom: auto !important;
+          left: 50% !important;
+          right: auto !important;
+          transform: translateX(-50%) !important;
+        }
         @media (max-width: 820px) {
           .header-nav-links {
-            position: fixed !important;
             top: auto !important;
             bottom: 28px !important;
-            left: 50% !important;
-            right: auto !important;
-            transform: translateX(-50%) !important;
           }
         }
       `}</style>
     </header>
+
+    <ContactOverlay open={contactOpen} onClose={() => setContactOpen(false)} />
+    </>
   )
 }

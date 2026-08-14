@@ -329,8 +329,8 @@ export function Full() {
             top: 0,
             left: 0,
             right: 0,
-            height: '18vh',
-            background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+            height: '30vh',
+            background: 'linear-gradient(rgb(0 0 0) 30%, rgb(0 0 0 / 0%) 100%)',
             pointerEvents: 'none',
             zIndex: 2,
           }}
@@ -341,8 +341,8 @@ export function Full() {
             bottom: 0,
             left: 0,
             right: 0,
-            height: '18vh',
-            background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+            height: '30vh',
+            background: 'linear-gradient(to top, rgb(0, 0, 0) 30%, rgba(0, 0, 0, 0) 100%)',
             pointerEvents: 'none',
             zIndex: 2,
           }}

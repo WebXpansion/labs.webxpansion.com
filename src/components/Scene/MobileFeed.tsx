@@ -17,7 +17,7 @@ const REPEATS = 3
 // slide's height is CARD_HEIGHT + GAP, and the card fills 100% of that
 // minus GAP) — change CARD_HEIGHT to resize cards, GAP to tighten/loosen
 // the space between them.
-const CARD_HEIGHT_VH = 58
+const CARD_HEIGHT_VH = 26
 const GAP_PX = 12
 const SLIDE_HEIGHT = `calc(${CARD_HEIGHT_VH}vh + ${GAP_PX}px)`
 
@@ -207,8 +207,8 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
           top: 0,
           left: 0,
           right: 0,
-          height: '10vh',
-          background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+          height: '18vh',
+          background: 'linear-gradient(rgb(0 0 0) 30%, rgb(0 0 0 / 0%) 100%)',
           pointerEvents: 'none',
           zIndex: 2,
         }}
@@ -219,8 +219,8 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
           bottom: 0,
           left: 0,
           right: 0,
-          height: '10vh',
-          background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+          height: '18vh',
+          background: 'linear-gradient(to top, rgb(0, 0, 0) 30%, rgba(0, 0, 0, 0) 100%)',
           pointerEvents: 'none',
           zIndex: 2,
         }}
