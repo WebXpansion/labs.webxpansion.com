@@ -24,12 +24,20 @@ export function Header() {
         pointerEvents: 'none',
       }}
     >
-      <Link to="/" style={{ color: '#fff', textDecoration: 'none', pointerEvents: 'auto' }}>
-        LANDBERG, JESPER
+      <Link
+        to="/"
+        style={{
+          color: '#fff',
+          textDecoration: 'none',
+          pointerEvents: 'auto',
+          textTransform: 'uppercase',
+        }}
+      >
+        WebXpansion Labs
       </Link>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-        <div style={{ display: 'flex', gap: 10, pointerEvents: 'auto' }}>
+        <div className="header-nav-links" style={{ display: 'flex', gap: 10, pointerEvents: 'auto' }}>
           <Link
             to="/"
             style={{ color: isFull ? 'rgba(255,255,255,0.4)' : '#fff', textDecoration: 'none' }}
@@ -49,16 +57,29 @@ export function Header() {
             background: 'none',
             border: 'none',
             color: '#fff',
-            fontSize: 13,
+            fontSize: 11,
             letterSpacing: '0.08em',
             cursor: 'pointer',
             pointerEvents: 'auto',
             fontFamily: 'inherit',
           }}
         >
-          PROFILE
+          CONTACT
         </button>
       </div>
+
+      <style>{`
+        @media (max-width: 820px) {
+          .header-nav-links {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 28px !important;
+            left: 50% !important;
+            right: auto !important;
+            transform: translateX(-50%) !important;
+          }
+        }
+      `}</style>
     </header>
   )
 }

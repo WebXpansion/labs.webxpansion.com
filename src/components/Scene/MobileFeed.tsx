@@ -149,17 +149,16 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
                   display: 'flex',
                   alignItems: 'flex-end',
                   justifyContent: 'space-between',
-                  padding: '0 18px 18px',
+                  padding: '48px 18px 24px',
                   fontFamily: "'Helvetica Neue', Arial, sans-serif",
                   background: 'linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0))',
-                  paddingTop: 48,
                 }}
               >
                 <span
                   style={{
                     color: '#fff',
-                    fontSize: 20,
-                    fontWeight: 600,
+                    fontSize: 18,
+                    fontWeight: 400,
                     letterSpacing: '0.01em',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -176,21 +175,56 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
                     height: 36,
                     borderRadius: '50%',
                     background: '#000',
-                    color: '#fff',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: 15,
                     flexShrink: 0,
                   }}
                 >
-                  →
+                  <svg width="12" height="12" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clipPath="url(#mobile-arrow-clip)">
+                      <path
+                        d="M39.0481 17.9183L26.233 5.10317C25.3507 4.22082 23.9221 4.22082 23.0818 5.10317C22.1994 5.98552 22.1994 7.4141 23.0818 8.25443L32.1154 17.288H2.03133C0.812847 17.288 -0.195557 18.2964 -0.195557 19.5149C-0.195557 20.7334 0.812847 21.7418 2.03133 21.7418L32.0734 21.7418L23.0818 30.7754C22.1994 31.6578 22.1994 33.0864 23.0818 33.9267C23.5019 34.3469 24.0902 34.599 24.6784 34.599C25.2666 34.599 25.8128 34.3889 26.275 33.9267L39.1322 21.0696C39.5523 20.6494 39.8044 20.0612 39.8044 19.4729C39.7204 18.9267 39.4683 18.3385 39.0481 17.9183Z"
+                        fill="white"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="mobile-arrow-clip">
+                        <rect width="40" height="40" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
                 </span>
               </div>
             </button>
           </div>
         ))}
       </div>
+
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '10vh',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '10vh',
+          background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}
+      />
     </div>
   )
 }
