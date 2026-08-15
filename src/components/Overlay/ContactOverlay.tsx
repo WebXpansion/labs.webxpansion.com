@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 interface ContactOverlayProps {
@@ -6,6 +7,29 @@ interface ContactOverlayProps {
 }
 
 const PROFILE_IMAGE = '/images/julien.webp'
+
+// Free form-submission backend (no server needed) — https://web3forms.com
+// 1. Go to web3forms.com, enter the email that should receive submissions
+//    (e.g. contact@webxpansion.com) and grab the free access key it emails
+//    you — no account/payment required.
+// 2. Paste that key below in place of the placeholder.
+// Until a real key is set, submissions will fail and show the error state.
+const WEB3FORMS_ACCESS_KEY = 'REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY'
+
+const inputStyle = {
+  width: '100%',
+  boxSizing: 'border-box' as const,
+  padding: '17px 20px',
+  borderRadius: 14,
+  border: '1px solid rgba(0,0,0,0.15)',
+  background: 'transparent',
+  color: '#111',
+  fontSize: 13,
+  letterSpacing: '0.03em',
+  textTransform: 'uppercase' as const,
+  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+  outline: 'none',
+}
 
 const SOCIAL_LINKS = [
   {
@@ -69,6 +93,43 @@ const SOCIAL_LINKS = [
 ]
 
 export function ContactOverlay({ open, onClose }: ContactOverlayProps) {
+  const [step, setStep] = useState<'profile' | 'form' | 'sent'>('profile')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'error'>('idle')
+  const formRef = useRef<HTMLFormElement>(null)
+
+  // Reset back to the profile view every time the overlay is reopened, so
+  // the form doesn't stay stuck on "sent" (or mid-typing) from a previous visit.
+  useEffect(() => {
+    if (open) {
+      setStep('profile')
+      setStatus('idle')
+    }
+  }, [open])
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!formRef.current) return
+    setStatus('sending')
+    const formData = new FormData(formRef.current)
+    formData.append('access_key', WEB3FORMS_ACCESS_KEY)
+    formData.append('subject', 'Nouveau message depuis le portfolio')
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: formData,
+      })
+      const data = await response.json()
+      if (data.success) {
+        setStep('sent')
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <AnimatePresence>
       {open && (
@@ -120,12 +181,13 @@ export function ContactOverlay({ open, onClose }: ContactOverlayProps) {
               }}
             >
               <motion.span
+                key={step}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
                 style={{ fontSize: 13, color: 'rgba(0,0,0,0.4)' }}
               >
-                Bonjour
+                {step === 'profile' ? 'Bonjour' : step === 'form' ? 'Envoyer un message' : 'Message envoyé'}
               </motion.span>
               <button
                 onClick={onClose}
@@ -149,135 +211,260 @@ export function ContactOverlay({ open, onClose }: ContactOverlayProps) {
               </button>
             </div>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              style={{ margin: 0, fontSize: 20, fontWeight: 500, lineHeight: 1.3 }}
-            >
-              Je suis Julien Lallouche
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              style={{ margin: '2px 0 20px', fontSize: 20, fontWeight: 400, lineHeight: 1.3 }}
-            >
-              UI/UX Designer &amp; Développeur depuis 8 ans
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                width: '100%',
-                aspectRatio: '4 / 3',
-                borderRadius: 14,
-                overflow: 'hidden',
-                marginBottom: 20,
-                background: '#111',
-              }}
-            >
-              <img
-                src={PROFILE_IMAGE}
-                alt="Julien Lallouche"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                margin: '0 0 24px',
-                fontSize: 12.5,
-                lineHeight: 1.6,
-                letterSpacing: '0.02em',
-                textTransform: 'uppercase',
-                color: 'rgba(0,0,0,0.45)',
-              }}
-            >
-              Je crée des expériences interactives qui vont au-delà des attentes, en écartant les
-              sentiers conventionnels du marketing et de la communication digitale.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
-              className="contact-social-row"
-              style={{ display: 'flex', gap: 10, marginBottom: 12 }}
-            >
-              {SOCIAL_LINKS.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="contact-social-btn"
-                  style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: 8,
-                    padding: '13px 16px',
-                    borderRadius: 10,
-                    border: '1px solid rgba(0,0,0,0.15)',
-                    color: '#111',
-                    textDecoration: 'none',
-                    fontSize: 12,
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    transition: 'background-color 0.25s ease, border-color 0.25s ease',
-                  }}
+            <AnimatePresence mode="wait">
+              {step === 'profile' && (
+                <motion.div
+                  key="profile"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <span className="contact-social-label">{social.label}</span>
-                  {social.icon}
-                </a>
-              ))}
-            </motion.div>
+                  <motion.h2
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ margin: 0, fontSize: 20, fontWeight: 500, lineHeight: 1.3 }}
+                  >
+                    Je suis Julien Lallouche
+                  </motion.h2>
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ margin: '2px 0 20px', fontSize: 20, fontWeight: 400, lineHeight: 1.3 }}
+                  >
+                    UI/UX Designer &amp; Développeur depuis 8 ans
+                  </motion.p>
 
-            <motion.a
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}
-              href="mailto:contact@webxpansion.com"
-              className="contact-send-btn"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%',
-                background: '#111',
-                color: '#fff',
-                textDecoration: 'none',
-                borderRadius: 10,
-                padding: '17px 20px',
-                fontSize: 13,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                boxSizing: 'border-box',
-                transition: 'background-color 0.25s ease, color 0.25s ease',
-              }}
-            >
-              Envoyer un message
-              <svg width="16" height="16" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#contact-send-clip)">
-                  <path
-                    d="M32.2791 4.78012L14.1558 4.78012C12.9079 4.78012 11.8978 5.79027 11.9275 7.00839C11.9275 8.25623 12.9376 9.26638 14.1558 9.23667L26.9312 9.23667L5.6586 30.5093C4.797 31.3709 4.79699 32.797 5.6586 33.6586C6.5202 34.5202 7.94629 34.5202 8.80789 33.6586L30.0508 12.4157L30.0805 25.1614C30.0805 26.4093 31.0907 27.4194 32.3088 27.3897C32.903 27.3897 33.4972 27.152 33.9132 26.7361C34.3291 26.3201 34.5668 25.7853 34.5668 25.1317L34.5668 6.94897C34.5668 6.35477 34.3291 5.76056 33.9132 5.34462C33.4675 5.0178 32.8733 4.78012 32.2791 4.78012Z"
-                    fill="white"
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      width: '100%',
+                      aspectRatio: '4 / 3',
+                      borderRadius: 14,
+                      overflow: 'hidden',
+                      marginBottom: 20,
+                      background: '#111',
+                    }}
+                  >
+                    <img
+                      src={PROFILE_IMAGE}
+                      alt="Julien Lallouche"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  </motion.div>
+
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      margin: '0 0 24px',
+                      fontSize: 12.5,
+                      lineHeight: 1.6,
+                      letterSpacing: '0.02em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(0,0,0,0.45)',
+                    }}
+                  >
+                    Je crée des expériences interactives qui vont au-delà des attentes, en écartant les
+                    sentiers conventionnels du marketing et de la communication digitale.
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                    className="contact-social-row"
+                    style={{ display: 'flex', gap: 10, marginBottom: 12 }}
+                  >
+                    {SOCIAL_LINKS.map((social) => (
+                      <a
+                        key={social.label}
+                        href={social.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="contact-social-btn"
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: 8,
+                          padding: '13px 16px',
+                          borderRadius: 10,
+                          border: '1px solid rgba(0,0,0,0.15)',
+                          color: '#111',
+                          textDecoration: 'none',
+                          fontSize: 12,
+                          letterSpacing: '0.04em',
+                          textTransform: 'uppercase',
+                          transition: 'background-color 0.25s ease, border-color 0.25s ease',
+                        }}
+                      >
+                        <span className="contact-social-label">{social.label}</span>
+                        {social.icon}
+                      </a>
+                    ))}
+                  </motion.div>
+
+                  <motion.button
+                    type="button"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}
+                    onClick={() => setStep('form')}
+                    className="contact-send-btn"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      background: '#111',
+                      color: '#fff',
+                      textDecoration: 'none',
+                      borderRadius: 10,
+                      padding: '17px 20px',
+                      fontSize: 13,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      boxSizing: 'border-box',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                      transition: 'background-color 0.25s ease, color 0.25s ease',
+                    }}
+                  >
+                    Envoyer un message
+                    <svg width="16" height="16" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g clipPath="url(#contact-send-clip)">
+                        <path
+                          d="M32.2791 4.78012L14.1558 4.78012C12.9079 4.78012 11.8978 5.79027 11.9275 7.00839C11.9275 8.25623 12.9376 9.26638 14.1558 9.23667L26.9312 9.23667L5.6586 30.5093C4.797 31.3709 4.79699 32.797 5.6586 33.6586C6.5202 34.5202 7.94629 34.5202 8.80789 33.6586L30.0508 12.4157L30.0805 25.1614C30.0805 26.4093 31.0907 27.4194 32.3088 27.3897C32.903 27.3897 33.4972 27.152 33.9132 26.7361C34.3291 26.3201 34.5668 25.7853 34.5668 25.1317L34.5668 6.94897C34.5668 6.35477 34.3291 5.76056 33.9132 5.34462C33.4675 5.0178 32.8733 4.78012 32.2791 4.78012Z"
+                          fill="white"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="contact-send-clip">
+                          <rect width="40" height="40" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </motion.button>
+                </motion.div>
+              )}
+
+              {step === 'form' && (
+                <motion.form
+                  key="form"
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+                >
+                  {[
+                    { name: 'name', placeholder: 'Nom*', required: true },
+                    { name: 'company', placeholder: 'Entreprise', required: false },
+                    { name: 'phone', placeholder: 'Téléphone', required: false },
+                    { name: 'email', placeholder: 'E-mail', type: 'email', required: false },
+                  ].map((field, index) => (
+                    <motion.input
+                      key={field.name}
+                      name={field.name}
+                      type={field.type ?? 'text'}
+                      required={field.required}
+                      placeholder={field.placeholder}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, delay: 0.05 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                      style={inputStyle}
+                    />
+                  ))}
+                  <motion.textarea
+                    name="message"
+                    placeholder="Description de votre projet"
+                    rows={5}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.29, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ ...inputStyle, resize: 'vertical', minHeight: 120, lineHeight: 1.5 }}
                   />
-                </g>
-                <defs>
-                  <clipPath id="contact-send-clip">
-                    <rect width="40" height="40" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-            </motion.a>
+
+                  {status === 'error' && (
+                    <p style={{ margin: 0, fontSize: 12.5, color: '#c0392b' }}>
+                      Une erreur est survenue, réessayez ou écrivez directement à{' '}
+                      <a href="mailto:contact@webxpansion.com">contact@webxpansion.com</a>.
+                    </p>
+                  )}
+
+                  <motion.button
+                    type="submit"
+                    disabled={status === 'sending'}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                    className="contact-send-btn"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      background: '#111',
+                      color: '#fff',
+                      textDecoration: 'none',
+                      borderRadius: 10,
+                      padding: '17px 20px',
+                      fontSize: 13,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      boxSizing: 'border-box',
+                      border: 'none',
+                      cursor: status === 'sending' ? 'default' : 'pointer',
+                      opacity: status === 'sending' ? 0.6 : 1,
+                      fontFamily: 'inherit',
+                      transition: 'background-color 0.25s ease, color 0.25s ease',
+                    }}
+                  >
+                    {status === 'sending' ? 'Envoi en cours…' : 'Envoyer un message'}
+                    <svg width="16" height="16" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g clipPath="url(#contact-send-clip)">
+                        <path
+                          d="M32.2791 4.78012L14.1558 4.78012C12.9079 4.78012 11.8978 5.79027 11.9275 7.00839C11.9275 8.25623 12.9376 9.26638 14.1558 9.23667L26.9312 9.23667L5.6586 30.5093C4.797 31.3709 4.79699 32.797 5.6586 33.6586C6.5202 34.5202 7.94629 34.5202 8.80789 33.6586L30.0508 12.4157L30.0805 25.1614C30.0805 26.4093 31.0907 27.4194 32.3088 27.3897C32.903 27.3897 33.4972 27.152 33.9132 26.7361C34.3291 26.3201 34.5668 25.7853 34.5668 25.1317L34.5668 6.94897C34.5668 6.35477 34.3291 5.76056 33.9132 5.34462C33.4675 5.0178 32.8733 4.78012 32.2791 4.78012Z"
+                          fill="white"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="contact-send-clip">
+                          <rect width="40" height="40" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </motion.button>
+                </motion.form>
+              )}
+
+              {step === 'sent' && (
+                <motion.div
+                  key="sent"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <h2 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 500, lineHeight: 1.3 }}>
+                    Merci !
+                  </h2>
+                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(0,0,0,0.6)' }}>
+                    Votre message a bien été envoyé. Je vous recontacte rapidement.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
 
           <style>{`
