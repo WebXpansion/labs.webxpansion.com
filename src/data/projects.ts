@@ -4,9 +4,9 @@ export interface Project {
   title: string
   category: string
   year: string
-  /** Optional short descriptive label shown as an extra pill in the overlay,
-   *  alongside category/year (e.g. "Expérience immersive"). */
-  tag?: string
+  /** Optional extra pills shown in the overlay alongside category/year
+   *  (e.g. "Expérience immersive", or tech tags like "GSAP"). */
+  tags?: string[]
   description: string
   /** Looping muted video used as the card's texture in the 3D slider. */
   video: string
@@ -34,7 +34,7 @@ interface RawProject {
   title: string
   category: string
   year: string
-  tag?: string
+  tags?: string[]
   video: string
   url: string
   bgImage: string
@@ -48,12 +48,12 @@ const RAW_PROJECTS: RawProject[] = [
     title: 'France Repousse',
     category: '3D',
     year: '2026',
-    tag: 'Expérience immersive',
+    tags: ['Expérience immersive'],
     // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
     video: '/videos/france-repousse.mp4',
     url: 'https://france-repousse.vercel.app/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
-    description: 'France repousse',
+    description: '',
     // Vidéos supplémentaires affichées dans l'overlay du projet.
     videos: [
       '/videos/france-repousse-projet-1.mp4',
@@ -66,147 +66,214 @@ const RAW_PROJECTS: RawProject[] = [
     title: 'Capture Engine',
     category: 'Vitrine',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/home-capture.mov',
-    url: 'https://webxpansion.com/capture-engine/',
+    tags: ['GSAP', 'HTML/CSS'],
+    // Réencodées en 720p/H.264/MP4 avec fast-start (voir public/videos/).
+    video: '/videos/capture-engine.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/catpure.webp',
-    description:
-      "Une série éditoriale explorant la matière et la lumière, pensée pour le mouvement autant que pour l'image fixe.",
+    description: '',
+    videos: ['/videos/capture-engine-projet.mp4'],
   },
   {
     id: 2,
     title: 'Gryphen',
     category: 'Vitrine',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/home-gryphen.mov',
-    url: 'https://webxpansion.com/gryphen-3/',
+    tags: ['GSAP', 'HTML/CSS/JS'],
+    // Réencodées en fast-start (voir public/videos/) — home en remux, projets en CRF 26.
+    video: '/videos/gryphen.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
-    description: 'Court-métrage de marque tourné en 35mm, monté pour une diffusion silencieuse en boucle.',
+    description: '',
+    videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
   },
   {
     id: 4,
     title: 'Du coté de chez swan',
     category: 'Vitrine',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/08/ducote-home.mov',
-    url: 'https://webxpansion.com/ducotedechezswann/',
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/du-cote-de-chez-swan.mp4',
+    url: 'https://xn--ducotdechezswann-fqb.fr/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
-    description: 'Court-métrage de marque tourné en 35mm, monté pour une diffusion silencieuse en boucle.',
+    description: '',
+    videos: [
+      '/videos/du-cote-de-chez-swan-projet-1.mp4',
+      '/videos/du-cote-de-chez-swan-projet-2.mp4',
+      '/videos/du-cote-de-chez-swan-projet-3.mp4',
+    ],
   },
   {
     id: 15,
     title: 'Logitech',
-    category: '3D',
+    category: 'Configurateur 3D',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/08/LOGITECH-home.mov',
-    url: 'https://webxpansion.com/logitech/',
+    tags: ['Expérience immersive', 'Unreal Engine 5'],
+    // Réencodées en fast-start (voir public/videos/) — projet recompressé en CRF 26 (bitrate trop élevé).
+    video: '/videos/logitech.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/logitech.webp',
-    description: 'France repousse',
+    description: '',
+    videos: ['/videos/logitech-projet.mp4'],
   },
   {
     id: 7,
     title: 'LDLC',
-    category: 'Configurateur',
+    category: 'Configurateur 3D',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2025/07/video5.mov',
-    url: 'https://webxpansion.com/ldlc/',
+    tags: ['Three.js'],
+    // Réencodées en fast-start (voir public/videos/) — projet 1 recompressé en CRF 26 (poids trop élevé).
+    video: '/videos/ldlc.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/LDLC.webp',
-    description:
-      "Une série éditoriale explorant la matière et la lumière, pensée pour le mouvement autant que pour l'image fixe.",
+    description: '',
+    videos: ['/videos/ldlc-projet-1.mp4', '/videos/ldlc-projet-2.mp4'],
   },
   {
     id: 12,
     title: 'Fig Battle',
-    category: 'Jeu',
+    category: 'Plateforme de jeu',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/08/fig-home.mov',
-    url: 'https://webxpansion.com/fig-battle/',
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/fig-battle.mp4',
+    url: 'https://fig-battle.vercel.app/fr',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Figbattle.webp',
-    description:
-      "Une série éditoriale explorant la matière et la lumière, pensée pour le mouvement autant que pour l'image fixe.",
+    description: '',
+    videos: [
+      '/videos/fig-battle-projet-1.mp4',
+      '/videos/fig-battle-projet-2.mp4',
+      '/videos/fig-battle-projet-3.mp4',
+      '/videos/fig-battle-projet-4.mp4',
+    ],
   },
   {
     id: 8,
     title: 'Turismo',
-    category: 'Vitrine',
+    category: 'Showroom 3D',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/turismo-home.mov',
-    url: 'https://webxpansion.com/turismo/',
+    tags: ['Three.js'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/turismo.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/turismo.webp',
-    description:
-      "Une série éditoriale explorant la matière et la lumière, pensée pour le mouvement autant que pour l'image fixe.",
+    description: '',
+    videos: ['/videos/turismo-projet.mp4'],
   },
   {
     id: 9,
     title: 'MCM',
-    category: '3D',
+    category: 'E-commerce',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/MCM-home.mov',
-    url: 'https://webxpansion.com/mcm-2',
+    tags: ['Expérience immersive 3D', 'Unreal Engine 5'],
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/mcm.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
-    description:
-      "Une série éditoriale explorant la matière et la lumière, pensée pour le mouvement autant que pour l'image fixe.",
+    description: '',
+    videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
   },
   {
     id: 11,
     title: 'Franck Muller',
     category: '3D',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/home-FM.mov',
-    url: 'https://webxpansion.com/franck-muller/',
+    tags: ['GSAP'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/franck-muller.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
-    description: 'Portraits en lumière naturelle, campagne capsule pour une marque de prêt-à-porter.',
+    description: '',
+    videos: ['/videos/franck-muller-projet.mp4'],
   },
   {
     id: 10,
     title: 'Cartier',
     category: '3D',
     year: '2025',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/cartier-home.mov',
-    url: 'https://webxpansion.com/cartier/',
+    tags: ['Expérience immersive', 'Unreal Engine 5'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/cartier.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
-    description:
-      "Une série éditoriale explorant la matière et la lumière, pensée pour le mouvement autant que pour l'image fixe.",
+    description: '',
+    videos: ['/videos/cartier-projet.mp4'],
   },
   {
     id: 111,
     title: 'Obrigado',
     category: 'Vitrine',
     year: '2025',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/obrigado.mov',
-    url: 'https://webxpansion.com/obrigado-rodizio/',
+    tags: ['GSAP', 'HTML/CSS/JS'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/obrigado.mp4',
+    url: 'https://obrigadorodizio.com/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
-    description:
-      "Une série éditoriale explorant la matière et la lumière, pensée pour le mouvement autant que pour l'image fixe.",
+    description: '',
+    videos: [
+      '/videos/obrigado-projet-1.mp4',
+      '/videos/obrigado-projet-2.mp4',
+      '/videos/obrigado-projet-3.mp4',
+    ],
   },
   {
     id: 1,
     title: 'Hangar 3D',
-    category: '3D',
-    year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/home-hangar3D.mov',
+    category: 'Configurateur 3D',
+    year: '2025',
+    tags: ['Three.js'],
+    // Réencodées en fast-start (voir public/videos/) — projet 1 recompressé en CRF 26 (bitrate trop élevé).
+    video: '/videos/hangar-3d.mp4',
     url: 'https://webxpansion.com/hangar-configurateur/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/hangar3D.webp',
-    description: "Direction artistique complète pour un lancement de collection, du moodboard jusqu'au tournage final.",
+    description: '',
+    videos: ['/videos/hangar-3d-projet-1.mp4', '/videos/hangar-3d-projet-2.mp4'],
+  },
+  {
+    id: 42,
+    title: 'Hangar Métallique',
+    category: '3D',
+    year: '2025',
+    tags: ['GSAP', 'HTML/CSS/JS'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/hangar-metallique.mp4',
+    url: 'https://hangarmetal.fr/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/hangar3D.webp',
+    description: '',
+    videos: ['/videos/hangar-metallique-projet.mp4'],
   },
   {
     id: 41,
-    title: 'Falco 3D',
-    category: 'Configurateur',
+    title: 'Falco Racing 3D',
+    category: 'Configurateur 3D',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/home-falco-3D.mov',
-    url: 'https://webxpansion.com/falco-3d-2/',
+    tags: ['Three.js'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/falco-racing-3d.mp4',
+    url: 'https://falco-racing.com/product/3d-jantes-supermotard-falco-100-personnalisables-2',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/falco3D.webp',
-    description: 'Reportage editorial sur le temps long, entre calme et texture, pour un numéro spécial.',
+    description: '',
+    videos: ['/videos/falco-racing-3d-projet.mp4'],
   },
   {
     id: 5,
     title: 'Falco Racing',
     category: 'E-commerce',
-    year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/07/home-falco.mov',
-    url: 'https://webxpansion.com/falco-racing/',
+    year: '2025',
+    tags: ['HTML/CSS/JS'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/falco-racing.mp4',
+    url: 'https://falco-racing.com/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/falco.webp',
-    description: 'Univers visuel complet pensé pour une campagne digitale multi-format.',
+    description: '',
+    videos: ['/videos/falco-racing-projet.mp4'],
   },
 ]
 
@@ -216,7 +283,7 @@ export const projects: Project[] = RAW_PROJECTS.map((p) => ({
   title: p.title,
   category: p.category,
   year: p.year,
-  tag: p.tag,
+  tags: p.tags,
   description: p.description,
   video: p.video,
   url: p.url,

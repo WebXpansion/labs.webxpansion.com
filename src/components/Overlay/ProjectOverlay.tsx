@@ -176,8 +176,9 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                   </svg>
                 </a>
               )}
-              {project.tag && (
+              {project.tags?.map((tag) => (
                 <span
+                  key={tag}
                   style={{
                     padding: '8px 16px',
                     borderRadius: 20,
@@ -186,9 +187,9 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                     letterSpacing: '0.05em',
                   }}
                 >
-                  {project.tag}
+                  {tag}
                 </span>
-              )}
+              ))}
               <span
                 style={{
                   padding: '8px 16px',
