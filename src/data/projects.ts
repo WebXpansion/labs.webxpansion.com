@@ -231,7 +231,7 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Three.js'],
     // Réencodées en fast-start (voir public/videos/) — projet 1 recompressé en CRF 26 (bitrate trop élevé).
     video: '/videos/hangar-3d.mp4',
-    url: 'https://webxpansion.com/hangar-configurateur/',
+    url: 'https://hangar-3d.vercel.app/fr',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/hangar3D.webp',
     description: '',
     videos: ['/videos/hangar-3d-projet-1.mp4', '/videos/hangar-3d-projet-2.mp4'],

@@ -68,7 +68,24 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
       {project && (
         <motion.div
           key={project.id}
+          className="project-overlay-backdrop"
+          onClick={handleClose}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 29,
+          }}
+        >
+        <motion.div
           className="project-overlay"
+          // Stop the click from bubbling up to the backdrop so interacting
+          // with the overlay's own content doesn't close it — only a click
+          // on the backdrop itself (outside this box) should close.
+          onClick={(e) => e.stopPropagation()}
           initial={{ opacity: 0, scale: 0.9, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 16 }}
@@ -199,7 +216,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                   letterSpacing: '0.05em',
                 }}
               >
-                {project.category.toUpperCase()}
+                {project.category}
               </span>
               <span
                 style={{
@@ -302,6 +319,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
               }
             }
           `}</style>
+        </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
