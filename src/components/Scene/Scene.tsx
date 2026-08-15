@@ -35,11 +35,13 @@ export function Scene({ onSelect, dimmed }: SceneProps) {
         title: p.title,
         category: p.category,
         year: p.year,
-        // TEMP: les vidéos de prod (webxpansion.com) sont bloquées par CORS
-        // en local, donc on utilise une seule vidéo locale pour toutes les
-        // cartes le temps de vérifier que l'affichage fonctionne bien.
-        // À retirer (remettre `video: p.video`) une fois le CORS réglé côté serveur.
-        video: TEMP_TEST_VIDEO,
+        // TEMP: les vidéos de prod hébergées sur webxpansion.com sont
+        // bloquées par CORS, donc on retombe sur la vidéo de test locale
+        // pour ces cartes-là. Les vidéos déjà hébergées dans /public (donc
+        // même origine que le site, comme France Repousse) n'ont pas ce
+        // problème et peuvent être utilisées directement.
+        // À retirer une fois le CORS réglé côté serveur webxpansion.com.
+        video: p.video.startsWith('/') ? p.video : TEMP_TEST_VIDEO,
         image: p.bgImage,
       })),
       onSelect: (index) => onSelectRef.current(projects[index]),

@@ -176,6 +176,19 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                   </svg>
                 </a>
               )}
+              {project.tag && (
+                <span
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: 20,
+                    background: '#f1f1f1',
+                    fontSize: 12,
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  {project.tag}
+                </span>
+              )}
               <span
                 style={{
                   padding: '8px 16px',
@@ -211,23 +224,39 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
               gap: 24,
             }}
           >
-            {project.video ? (
+            {/* When a project has its own gallery clips (`videos`), the
+                overlay shows only those — not the card's "home" video used
+                in the slider/feed, which would just be a duplicate here. */}
+            {!project.videos?.length &&
+              (project.video ? (
+                <video
+                  key={project.video}
+                  src={project.video}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  style={{ width: '100%', borderRadius: 10, display: 'block', background: '#000' }}
+                />
+              ) : (
+                <img
+                  src={project.bgImage}
+                  alt={project.title}
+                  style={{ width: '100%', borderRadius: 10, display: 'block' }}
+                />
+              ))}
+
+            {project.videos?.map((src) => (
               <video
-                key={project.video}
-                src={project.video}
+                key={src}
+                src={src}
                 autoPlay
                 muted
                 loop
                 playsInline
                 style={{ width: '100%', borderRadius: 10, display: 'block', background: '#000' }}
               />
-            ) : (
-              <img
-                src={project.bgImage}
-                alt={project.title}
-                style={{ width: '100%', borderRadius: 10, display: 'block' }}
-              />
-            )}
+            ))}
           </div>
 
           <style>{`

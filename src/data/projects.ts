@@ -4,6 +4,9 @@ export interface Project {
   title: string
   category: string
   year: string
+  /** Optional short descriptive label shown as an extra pill in the overlay,
+   *  alongside category/year (e.g. "Expérience immersive"). */
+  tag?: string
   description: string
   /** Looping muted video used as the card's texture in the 3D slider. */
   video: string
@@ -12,6 +15,9 @@ export interface Project {
   /** Blurred full-bleed body background shown behind the slider while this
    *  project is active (cross-fades in, like the source theme). */
   bgImage: string
+  /** Extra looping clips shown as a gallery underneath the main video when
+   *  this project's overlay is open (beyond the single card `video`). */
+  videos?: string[]
 }
 
 function slugify(title: string) {
@@ -28,10 +34,12 @@ interface RawProject {
   title: string
   category: string
   year: string
+  tag?: string
   video: string
   url: string
   bgImage: string
   description: string
+  videos?: string[]
 }
 
 const RAW_PROJECTS: RawProject[] = [
@@ -40,10 +48,18 @@ const RAW_PROJECTS: RawProject[] = [
     title: 'France Repousse',
     category: '3D',
     year: '2026',
-    video: 'https://webxpansion.com/wp-content/uploads/2026/08/france.mov',
-    url: 'https://webxpansion.com/france-repousse/',
+    tag: 'Expérience immersive',
+    // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
+    video: '/videos/france-repousse.mp4',
+    url: 'https://france-repousse.vercel.app/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
     description: 'France repousse',
+    // Vidéos supplémentaires affichées dans l'overlay du projet.
+    videos: [
+      '/videos/france-repousse-projet-1.mp4',
+      '/videos/france-repousse-projet-2.mp4',
+      '/videos/france-repousse-projet-3.mp4',
+    ],
   },
   {
     id: 0,
@@ -200,8 +216,10 @@ export const projects: Project[] = RAW_PROJECTS.map((p) => ({
   title: p.title,
   category: p.category,
   year: p.year,
+  tag: p.tag,
   description: p.description,
   video: p.video,
   url: p.url,
   bgImage: p.bgImage,
+  videos: p.videos,
 }))
