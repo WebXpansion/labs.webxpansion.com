@@ -14,7 +14,7 @@ const PROFILE_IMAGE = '/images/julien.webp'
 //    you — no account/payment required.
 // 2. Paste that key below in place of the placeholder.
 // Until a real key is set, submissions will fail and show the error state.
-const WEB3FORMS_ACCESS_KEY = 'REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY'
+const WEB3FORMS_ACCESS_KEY = '877716bf-de5d-40b4-b956-375e5b299d92'
 
 const inputStyle = {
   width: '100%',
