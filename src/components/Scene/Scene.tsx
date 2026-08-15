@@ -99,7 +99,7 @@ export function Scene({ onSelect, dimmed }: SceneProps) {
           left: 0,
           right: 0,
           height: '30vh',
-          background: 'linear-gradient(rgb(0 0 0) 30%, rgb(0 0 0 / 0%) 100%)',
+          background: 'linear-gradient(rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0) 100%)',
           pointerEvents: 'none',
           zIndex: 2,
         }}
@@ -111,7 +111,7 @@ export function Scene({ onSelect, dimmed }: SceneProps) {
           left: 0,
           right: 0,
           height: '30vh',
-          background: 'linear-gradient(to top, rgb(0, 0, 0) 30%, rgba(0, 0, 0, 0) 100%)',
+          background: 'linear-gradient(to top, rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0) 100%)',
           pointerEvents: 'none',
           zIndex: 2,
         }}

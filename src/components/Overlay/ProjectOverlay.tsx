@@ -236,6 +236,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
             className="overlay-media"
             style={{
               overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
               padding: '24px 92px',
               display: 'flex',
               flexDirection: 'column',
@@ -291,14 +292,23 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
             @media (max-width: 820px) {
               .project-overlay {
                 inset: 0 !important;
-                bottom: auto !important;
-                height: auto !important;
-                min-height: 100vh !important;
+                /* Fixed elements only scroll internally if they have a
+                   bounded height — "height: auto" let the box grow taller
+                   than the viewport with nothing left to trigger
+                   overflow-y, so the bottom of the overlay was unreachable
+                   on mobile. Pin it to the viewport height (100dvh accounts
+                   for the mobile browser chrome) so overflow-y actually
+                   kicks in and the content scrolls. */
+                height: 100vh !important;
+                height: 100dvh !important;
+                max-height: 100vh !important;
+                max-height: 100dvh !important;
                 border-radius: 0 !important;
                 grid-template-columns: 1fr !important;
                 grid-template-rows: auto auto;
                 align-content: start;
                 overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch;
               }
               .overlay-media {
                 padding: 16px !important;

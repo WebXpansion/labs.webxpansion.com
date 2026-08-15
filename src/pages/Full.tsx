@@ -7,6 +7,12 @@ import type { Project } from '../data/projects'
 import { ProjectOverlay } from '../components/Overlay/ProjectOverlay'
 import { isMobileDevice } from '../utils/device'
 
+// TEMP: même limitation CORS que dans Scene.tsx — les vidéos de prod
+// hébergées sur webxpansion.com ne peuvent pas être lues en cross-origin
+// pour l'aperçu au survol, donc on retombe sur la vidéo de test locale pour
+// ces cartes-là. À retirer une fois le CORS réglé côté serveur.
+const TEMP_TEST_VIDEO = '/test-video.mp4'
+
 // Infinite vertical scroll list — adapted from Codegrid's "Advanced Infinite
 // Scroll" demo (wheel/drag physics + GSAP wrap-around positioning + a
 // scale/rotate distortion driven by scroll speed), wired up to our real
@@ -19,7 +25,7 @@ export function Full() {
   const bgBRef = useRef<HTMLImageElement>(null)
   const activeBgIndex = useRef(0)
   const hoverPreviewRef = useRef<HTMLDivElement>(null)
-  const hoverPreviewImgRef = useRef<HTMLImageElement>(null)
+  const hoverPreviewVideoRef = useRef<HTMLVideoElement>(null)
   const [isMobile] = useState(isMobileDevice)
 
   const activeProject: Project | null = useMemo(
@@ -71,6 +77,7 @@ export function Full() {
       if (hoverPreviewRef.current) {
         gsap.to(hoverPreviewRef.current, { opacity: 0, duration: 0.15, overwrite: true })
       }
+      hoverPreviewVideoRef.current?.pause()
     }
 
     const onWheelScroll = (event: WheelEvent) => {
@@ -193,9 +200,14 @@ export function Full() {
     }
   }, [activeProject])
 
-  const showHoverPreview = (imageUrl: string) => {
+  const showHoverPreview = (videoUrl?: string) => {
     if (isMobile || !hoverPreviewRef.current) return
-    if (hoverPreviewImgRef.current) hoverPreviewImgRef.current.src = imageUrl
+    const video = hoverPreviewVideoRef.current
+    if (video && videoUrl) {
+      if (video.src !== videoUrl) video.src = videoUrl
+      video.currentTime = 0
+      video.play().catch(() => {})
+    }
     gsap.to(hoverPreviewRef.current, {
       opacity: 1,
       scale: 1,
@@ -207,6 +219,7 @@ export function Full() {
 
   const hideHoverPreview = () => {
     if (isMobile || !hoverPreviewRef.current) return
+    hoverPreviewVideoRef.current?.pause()
     gsap.to(hoverPreviewRef.current, {
       opacity: 0,
       scale: 0.85,
@@ -269,7 +282,7 @@ export function Full() {
               className="full-menu-item"
               onMouseEnter={() => {
                 handleHoverImage(project.bgImage)
-                showHoverPreview(project.bgImage)
+                showHoverPreview(project.video.startsWith('/') ? project.video : TEMP_TEST_VIDEO)
               }}
               onMouseLeave={hideHoverPreview}
               onClick={() => navigate(`/full/projects/${project.slug}`)}
@@ -330,7 +343,9 @@ export function Full() {
             left: 0,
             right: 0,
             height: '30vh',
-            background: 'linear-gradient(rgb(0 0 0) 30%, rgb(0 0 0 / 0%) 100%)',
+            background: isMobile
+              ? 'linear-gradient(rgb(0 0 0) 30%, rgb(0 0 0 / 0%) 100%)'
+              : 'linear-gradient(rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0) 100%)',
             pointerEvents: 'none',
             zIndex: 2,
           }}
@@ -342,7 +357,9 @@ export function Full() {
             left: 0,
             right: 0,
             height: '30vh',
-            background: 'linear-gradient(to top, rgb(0, 0, 0) 30%, rgba(0, 0, 0, 0) 100%)',
+            background: isMobile
+              ? 'linear-gradient(to top, rgb(0, 0, 0) 30%, rgba(0, 0, 0, 0) 100%)'
+              : 'linear-gradient(to top, rgb(0, 0, 0) 10%, rgba(0, 0, 0, 0) 100%)',
             pointerEvents: 'none',
             zIndex: 2,
           }}
@@ -368,10 +385,12 @@ export function Full() {
             boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
           }}
         >
-          <img
-            ref={hoverPreviewImgRef}
-            alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          <video
+            ref={hoverPreviewVideoRef}
+            muted
+            loop
+            playsInline
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#000' }}
           />
         </div>
       )}
