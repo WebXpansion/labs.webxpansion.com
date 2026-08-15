@@ -56,7 +56,7 @@ export function createHorizontalSlider({
   // Fixed render size along the scroll axis — slightly larger than the pitch
   // so neighbouring cards cascade/overlap a touch, like the source theme.
   const cardRenderWidth = 18
-  const gap = 5
+  const gap = 5.5
   const cycleWidth = totalSlides * (slideWidth + gap)
 
   // Fixed height — shorter, wider cards (more cinematic, less full-bleed).
@@ -248,6 +248,10 @@ export function createHorizontalSlider({
     }
 
     if (project.video) {
+      // Show the (much lighter, already-cached-by-then) still image right
+      // away so the card isn't blank while the video downloads, then swap
+      // to the video texture once it has enough data to play.
+      useStaticFallback()
       makeVideoTexture(
         project,
         (texture, video) => {

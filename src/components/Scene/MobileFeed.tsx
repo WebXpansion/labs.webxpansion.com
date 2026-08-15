@@ -17,7 +17,7 @@ const REPEATS = 3
 // slide's height is CARD_HEIGHT + GAP, and the card fills 100% of that
 // minus GAP) — change CARD_HEIGHT to resize cards, GAP to tighten/loosen
 // the space between them.
-const CARD_HEIGHT_VH = 26
+const CARD_HEIGHT_VH = 46
 const GAP_PX = 12
 const SLIDE_HEIGHT = `calc(${CARD_HEIGHT_VH}vh + ${GAP_PX}px)`
 
@@ -125,6 +125,7 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
                     videoRefs.current[i] = el
                   }}
                   src={project.video}
+                  poster={project.bgImage}
                   muted
                   loop
                   playsInline

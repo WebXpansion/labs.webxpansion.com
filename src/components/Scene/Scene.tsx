@@ -12,7 +12,9 @@ interface SceneProps {
 
 // TEMP: vidéo de test locale utilisée pour toutes les cartes tant que le
 // CORS n'est pas réglé sur webxpansion.com (voir commentaire plus bas).
-const TEMP_TEST_VIDEO = '/test-video.mov'
+// Réencodée en 720p/H.264/MP4 avec fast-start pour tester le poids/la
+// vitesse de chargement réels sur le site déployé.
+const TEMP_TEST_VIDEO = '/test-video.mp4'
 
 export function Scene({ onSelect, dimmed }: SceneProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
