@@ -50,8 +50,8 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
     const introProxy = { y: el.scrollTop }
     const introTween = gsap.to(introProxy, {
       y: el.scrollTop + slideHeightPx * 5,
-      duration: 4.6,
-      ease: 'power2.inOut',
+      duration: 1.8,
+      ease: 'power1.inOut',
       onUpdate: () => {
         if (el) el.scrollTop = introProxy.y
       },

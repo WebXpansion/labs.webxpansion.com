@@ -303,29 +303,26 @@ export function createHorizontalSlider({
 
   function playIntro(steps = 5) {
     if (introCancelled) return
+    // One continuous fast glide across all the steps at once — no
+    // per-slide pause in between, like someone scrolling through quickly.
+    const totalDistance = steps * (slideWidth + gap)
     const tl = gsap.timeline()
-    for (let i = 0; i < steps; i++) {
-      tl.to(
-        scrollState,
-        {
-          // Reversed vs. the original direction (was '-=', now '+=') per
-          // request to invert the desktop intro's scroll direction.
-          current: `+=${slideWidth + gap}`,
-          duration: 1.3,
-          ease: 'power2.inOut',
-          onUpdate: () => {
-            // Keep target glued to current so the per-frame lerp in the
-            // render loop finds nothing left to chase — gsap's easing is
-            // the only thing moving the slider during the intro.
-            scrollState.target = scrollState.current
-          },
-          onComplete: () => {
-            currentSlideIndex += 1
-          },
-        },
-        i === 0 ? 0 : '+=0.5',
-      )
-    }
+    tl.to(scrollState, {
+      // Reversed vs. the original direction (was '-=', now '+=') per
+      // request to invert the desktop intro's scroll direction.
+      current: `+=${totalDistance}`,
+      duration: 1.6,
+      ease: 'power1.inOut',
+      onUpdate: () => {
+        // Keep target glued to current so the per-frame lerp in the
+        // render loop finds nothing left to chase — gsap's easing is
+        // the only thing moving the slider during the intro.
+        scrollState.target = scrollState.current
+      },
+      onComplete: () => {
+        currentSlideIndex += steps
+      },
+    })
     introTimeline = tl
   }
 
