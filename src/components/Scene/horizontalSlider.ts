@@ -285,10 +285,53 @@ export function createHorizontalSlider({
     scrollState.target = currentSlideIndex * (slideWidth + gap)
   }
 
+  /* ---------------- Intro auto-swipe ----------------
+   * First-visit hint that the cards can be swiped/scrolled: gently glides
+   * through a few slides on its own right after load, then hands control
+   * back. Any real interaction (wheel, drag/click, arrow key) cancels it
+   * immediately so it never fights the person's own input. */
+  let introTimeline: gsap.core.Timeline | null = null
+  let introCancelled = false
+
+  function cancelIntro() {
+    if (introTimeline) {
+      introTimeline.kill()
+      introTimeline = null
+    }
+    introCancelled = true
+  }
+
+  function playIntro(steps = 3) {
+    if (introCancelled) return
+    const tl = gsap.timeline({ delay: 0.6 })
+    for (let i = 0; i < steps; i++) {
+      tl.to(
+        scrollState,
+        {
+          current: `-=${slideWidth + gap}`,
+          duration: 1.3,
+          ease: 'power2.inOut',
+          onUpdate: () => {
+            // Keep target glued to current so the per-frame lerp in the
+            // render loop finds nothing left to chase — gsap's easing is
+            // the only thing moving the slider during the intro.
+            scrollState.target = scrollState.current
+          },
+          onComplete: () => {
+            currentSlideIndex -= 1
+          },
+        },
+        i === 0 ? 0 : '+=0.5',
+      )
+    }
+    introTimeline = tl
+  }
+
   let wheelAccum = 0
   const WHEEL_THRESHOLD = 800 // augmente pour réduire la sensibilité, diminue pour l'augmenter
 
   function onWheel(event: WheelEvent) {
+    cancelIntro()
     const rawDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
     // Inverted: scrolling up used to move right-to-left — flip so it now
     // moves left-to-right instead (and vice versa scrolling down).
@@ -304,8 +347,10 @@ export function createHorizontalSlider({
 
   function onKeydown(event: KeyboardEvent) {
     if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+      cancelIntro()
       goToSlide(-1)
     } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+      cancelIntro()
       goToSlide(1)
     }
   }
@@ -336,6 +381,7 @@ export function createHorizontalSlider({
   }
 
   function onPointerDown(event: PointerEvent) {
+    cancelIntro()
     pointerDown = { x: event.clientX, y: event.clientY, t: performance.now() }
     renderer.domElement.setPointerCapture?.(event.pointerId)
   }
@@ -468,9 +514,11 @@ export function createHorizontalSlider({
   }
 
   animate()
+  playIntro()
 
   function destroy() {
     cancelAnimationFrame(rafId)
+    cancelIntro()
     window.removeEventListener('wheel', onWheel)
     window.removeEventListener('keydown', onKeydown)
     window.removeEventListener('resize', onResize)

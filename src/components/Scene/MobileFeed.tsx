@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
 import { projects } from '../../data/projects'
 import type { Project } from '../../data/projects'
 
@@ -42,7 +43,32 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
       }
     }
     el.addEventListener('scroll', onScroll, { passive: true })
-    return () => el.removeEventListener('scroll', onScroll)
+
+    // First-visit hint that the feed can be swiped: gently auto-scrolls
+    // through a few cards on its own right after load, then hands control
+    // back. Any real touch/wheel/click cancels it immediately.
+    const introProxy = { y: el.scrollTop }
+    const introTween = gsap.to(introProxy, {
+      y: el.scrollTop + slideHeightPx * 3,
+      duration: 3.6,
+      delay: 0.6,
+      ease: 'power2.inOut',
+      onUpdate: () => {
+        if (el) el.scrollTop = introProxy.y
+      },
+    })
+    const cancelIntro = () => introTween.kill()
+    el.addEventListener('touchstart', cancelIntro, { passive: true })
+    el.addEventListener('wheel', cancelIntro, { passive: true })
+    el.addEventListener('pointerdown', cancelIntro)
+
+    return () => {
+      el.removeEventListener('scroll', onScroll)
+      introTween.kill()
+      el.removeEventListener('touchstart', cancelIntro)
+      el.removeEventListener('wheel', cancelIntro)
+      el.removeEventListener('pointerdown', cancelIntro)
+    }
   }, [])
 
   // Only the card near the vertical centre of the screen should actually
