@@ -49,9 +49,8 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
     // back. Any real touch/wheel/click cancels it immediately.
     const introProxy = { y: el.scrollTop }
     const introTween = gsap.to(introProxy, {
-      y: el.scrollTop + slideHeightPx * 3,
-      duration: 3.6,
-      delay: 0.6,
+      y: el.scrollTop + slideHeightPx * 5,
+      duration: 4.6,
       ease: 'power2.inOut',
       onUpdate: () => {
         if (el) el.scrollTop = introProxy.y

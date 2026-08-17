@@ -301,14 +301,16 @@ export function createHorizontalSlider({
     introCancelled = true
   }
 
-  function playIntro(steps = 3) {
+  function playIntro(steps = 5) {
     if (introCancelled) return
-    const tl = gsap.timeline({ delay: 0.6 })
+    const tl = gsap.timeline()
     for (let i = 0; i < steps; i++) {
       tl.to(
         scrollState,
         {
-          current: `-=${slideWidth + gap}`,
+          // Reversed vs. the original direction (was '-=', now '+=') per
+          // request to invert the desktop intro's scroll direction.
+          current: `+=${slideWidth + gap}`,
           duration: 1.3,
           ease: 'power2.inOut',
           onUpdate: () => {
@@ -318,7 +320,7 @@ export function createHorizontalSlider({
             scrollState.target = scrollState.current
           },
           onComplete: () => {
-            currentSlideIndex -= 1
+            currentSlideIndex += 1
           },
         },
         i === 0 ? 0 : '+=0.5',
