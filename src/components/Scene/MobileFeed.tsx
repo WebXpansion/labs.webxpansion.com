@@ -70,12 +70,7 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
     }
   }, [])
 
-  // Only the card near the vertical centre of the screen should actually
-  // play its video — same idea as the desktop slider's ACTIVE_RANGE, ported
-  // to plain DOM here. A thin IntersectionObserver band means a video
-  // starts as its card crosses into the centre and stops the moment it
-  // leaves, even when scrolling fast, instead of every card autoplaying at
-  // once.
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
