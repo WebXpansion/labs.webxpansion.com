@@ -118,6 +118,12 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
           key={project.id}
           className="project-overlay-backdrop"
           onClick={closeWithLiquid}
+          // The 3D slider behind listens for wheel events on `window` (so it
+          // can react to scroll input from anywhere on the page) — without
+          // this, scrolling inside the open overlay also slides the cards
+          // behind it. Stopping propagation here keeps the wheel event from
+          // ever reaching that window listener while the overlay is open.
+          onWheel={(e) => e.stopPropagation()}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
