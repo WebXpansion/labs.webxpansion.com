@@ -23,6 +23,54 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const handleClose = onClose ?? (() => navigate('/'))
   const titleRef = useRef<HTMLHeadingElement>(null)
   const descRef = useRef<HTMLParagraphElement>(null)
+  const liquidDisplacementRef = useRef<SVGFEDisplacementMapElement>(null)
+  const liquidTweenRef = useRef<gsap.core.Tween | null>(null)
+
+  const LIQUID_SCALE = 130 // how strong the open/close distortion is
+  const LIQUID_DURATION = 0.8
+
+  // Liquid open: the card itself briefly warps through a turbulence-driven
+  // displacement map, settling to perfectly flat as it lands — a one-shot
+  // "melting into place" reveal rather than a plain fade/scale. Pure
+  // SVG filter + CSS, no WebGL involved, so it's cheap enough to run on
+  // mobile too.
+  useEffect(() => {
+    if (!project || !liquidDisplacementRef.current) return
+    const el = liquidDisplacementRef.current
+    const proxy = { value: LIQUID_SCALE }
+    el.setAttribute('scale', String(proxy.value))
+    liquidTweenRef.current?.kill()
+    const tween = gsap.to(proxy, {
+      value: 0,
+      duration: LIQUID_DURATION,
+      ease: 'power3.out',
+      onUpdate: () => el.setAttribute('scale', String(proxy.value)),
+    })
+    liquidTweenRef.current = tween
+    return () => {
+      tween.kill()
+    }
+  }, [project])
+
+  // Liquid close: the mirror image of the open — run explicitly from the
+  // click handlers (backdrop click or the × button) rather than from a
+  // `project` effect, since AnimatePresence keeps this DOM around for the
+  // whole exit transition even after the parent has already cleared
+  // `project` to null, and the ref is still valid throughout that window.
+  function closeWithLiquid() {
+    const el = liquidDisplacementRef.current
+    if (el) {
+      liquidTweenRef.current?.kill()
+      const proxy = { value: Number(el.getAttribute('scale')) || 0 }
+      liquidTweenRef.current = gsap.to(proxy, {
+        value: LIQUID_SCALE,
+        duration: LIQUID_DURATION,
+        ease: 'power3.in',
+        onUpdate: () => el.setAttribute('scale', String(proxy.value)),
+      })
+    }
+    handleClose()
+  }
 
   // "Lines" mask-reveal on the title + description, adapted from Osmo's
   // SplitText demo (https://osmo.supply/) — lines-only, no words/letters
@@ -69,30 +117,69 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
         <motion.div
           key={project.id}
           className="project-overlay-backdrop"
-          onClick={handleClose}
+          onClick={closeWithLiquid}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          // Matches the card's own duration below — AnimatePresence keeps
+          // the whole subtree mounted until THIS (the direct child it
+          // wraps) finishes exiting, so a shorter duration here would cut
+          // the card's liquid-close animation short regardless of its own
+          // transition settings.
+          transition={{ duration: LIQUID_DURATION, ease: [0.16, 1, 0.3, 1] }}
           style={{
             position: 'fixed',
             inset: 0,
             zIndex: 29,
           }}
         >
+        {/* Off-DOM: defines the turbulence-driven displacement map behind
+            the "liquid open" effect above. Standard SVG filter + CSS
+            `filter: url()` — works the same in Safari/Firefox/Chrome. */}
+        <svg aria-hidden style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+          <defs>
+            <filter id="project-overlay-liquid" x="-30%" y="-30%" width="160%" height="160%" colorInterpolationFilters="sRGB">
+              {/* Lower baseFrequency + a single octave = fewer, broader
+                  waves instead of a busy ripple — reads more like a soft
+                  warp than a wobble. */}
+              <feTurbulence type="fractalNoise" baseFrequency="0.004 0.006" numOctaves="1" seed="7" result="noise" />
+              <feDisplacementMap
+                ref={liquidDisplacementRef}
+                in="SourceGraphic"
+                in2="noise"
+                scale={0}
+                xChannelSelector="R"
+                yChannelSelector="G"
+              />
+            </filter>
+          </defs>
+        </svg>
         <motion.div
           className="project-overlay"
           // Stop the click from bubbling up to the backdrop so interacting
           // with the overlay's own content doesn't close it — only a click
           // on the backdrop itself (outside this box) should close.
           onClick={(e) => e.stopPropagation()}
-          initial={{ opacity: 0, scale: 0.9, y: 24 }}
+          // Starts (and shrinks back to, on close) noticeably smaller so the
+          // open/close reads as a real "grow"/"shrink" — timed to land
+          // together with the liquid distortion above.
+          initial={{ opacity: 0, scale: 0.55, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.94, y: 16 }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0, scale: 0.55, y: 16 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
             position: 'fixed',
-            inset: '3vh 4vw',
+            top: '3vh',
+            bottom: '3vh',
+            left: '4vw',
+            right: '4vw',
+            // On very large/ultrawide monitors (e.g. Odyssey G9), 4vw of
+            // margin still leaves an enormous box — and everything inside
+            // (video, text) scales up with it. Cap the overlay's own width
+            // and center it with auto margins so it stops growing past a
+            // sane reading/viewing size on huge screens.
+            maxWidth: 1400,
+            margin: '0 auto',
             background: '#fff',
             color: '#111',
             borderRadius: 18,
@@ -101,10 +188,11 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
             display: 'grid',
             gridTemplateColumns: 'minmax(280px, 380px) 1fr',
             boxShadow: '0 40px 120px rgba(0,0,0,0.5)',
+            filter: 'url(#project-overlay-liquid)',
           }}
         >
           <button
-            onClick={handleClose}
+            onClick={closeWithLiquid}
             aria-label="Close"
             className="project-overlay-close"
             style={{

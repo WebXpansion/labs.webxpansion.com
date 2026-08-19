@@ -477,20 +477,14 @@ export function createHorizontalSlider({
 
       mesh.position.x = x
 
-      const isHovered = mesh === hoveredMesh
-      mesh.userData.hover = THREE.MathUtils.lerp(mesh.userData.hover, isHovered ? 1 : 0, 0.08)
-
-      if (!isHovered) {
-        gsap.set(mesh.scale, { x: 1, y: 1 })
-      } else {
-        const s = 1 + mesh.userData.hover * 0.03
-        mesh.scale.set(s, s, 1)
-      }
-
+      // No hover reaction on desktop — cards stay put on mouseover (only
+      // the cursor still switches to a pointer, and clicking still opens
+      // the project). Was: a slight grow + shader lift on uHover, removed
+      // per request.
       const material = mesh.material as THREE.ShaderMaterial
       material.uniforms.uTime.value = t
       material.uniforms.uOffset.value = x
-      material.uniforms.uHover.value = mesh.userData.hover
+      material.uniforms.uHover.value = 0
 
       if (shouldCheckVideos && mesh.userData.video) {
         const video = mesh.userData.video
