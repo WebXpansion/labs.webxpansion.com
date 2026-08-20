@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
@@ -25,6 +25,15 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const descRef = useRef<HTMLParagraphElement>(null)
   const liquidDisplacementRef = useRef<SVGFEDisplacementMapElement>(null)
   const liquidTweenRef = useRef<gsap.core.Tween | null>(null)
+  // Whether the CSS `filter: url(#project-overlay-liquid)` is applied to the
+  // overlay box at all. Left on permanently (even at scale=0) this forces
+  // the whole box through the SVG filter's compositing path — and on iOS
+  // Safari, a filtered container with an autoplaying <video> inside
+  // frequently drops everything BUT the video from that composite (the
+  // video's hardware decode layer doesn't merge back in), leaving the
+  // white background and text invisible. Only keep the filter mounted
+  // while the open/close warp is actually animating.
+  const [liquidFilterActive, setLiquidFilterActive] = useState(false)
 
   const LIQUID_SCALE = 130 // how strong the open/close distortion is
   const LIQUID_DURATION = 0.8
@@ -37,6 +46,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   useEffect(() => {
     if (!project || !liquidDisplacementRef.current) return
     const el = liquidDisplacementRef.current
+    setLiquidFilterActive(true)
     const proxy = { value: LIQUID_SCALE }
     el.setAttribute('scale', String(proxy.value))
     liquidTweenRef.current?.kill()
@@ -45,6 +55,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
       duration: LIQUID_DURATION,
       ease: 'power3.out',
       onUpdate: () => el.setAttribute('scale', String(proxy.value)),
+      onComplete: () => setLiquidFilterActive(false),
     })
     liquidTweenRef.current = tween
     return () => {
@@ -60,6 +71,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   function closeWithLiquid() {
     const el = liquidDisplacementRef.current
     if (el) {
+      setLiquidFilterActive(true)
       liquidTweenRef.current?.kill()
       const proxy = { value: Number(el.getAttribute('scale')) || 0 }
       liquidTweenRef.current = gsap.to(proxy, {
@@ -194,7 +206,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
             display: 'grid',
             gridTemplateColumns: 'minmax(280px, 380px) 1fr',
             boxShadow: '0 40px 120px rgba(0,0,0,0.5)',
-            filter: 'url(#project-overlay-liquid)',
+            filter: liquidFilterActive ? 'url(#project-overlay-liquid)' : 'none',
           }}
         >
           <button
