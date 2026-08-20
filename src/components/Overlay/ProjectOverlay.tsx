@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { CustomEase } from 'gsap/CustomEase'
-import type { Project } from '../../data/projects'
+import { posterFor, type Project } from '../../data/projects'
 import { isMobileDevice } from '../../utils/device'
+import { FadeVideo } from '../FadeVideo'
 
 gsap.registerPlugin(SplitText, CustomEase)
 CustomEase.create('osmo-ease', '0.625, 0.05, 0, 1')
@@ -362,14 +363,15 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
             {!project.videos?.length &&
               !project.images?.length &&
               (project.video ? (
-                <video
+                <FadeVideo
                   key={project.video}
                   src={project.video}
+                  poster={project.poster ?? posterFor(project.video)}
                   autoPlay
                   muted
                   loop
                   playsInline
-                  style={{ width: '100%', borderRadius: 10, display: 'block', background: '#000' }}
+                  wrapperStyle={{ borderRadius: 10, overflow: 'hidden', background: '#000' }}
                 />
               ) : (
                 <img
@@ -380,14 +382,15 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
               ))}
 
             {project.videos?.map((src) => (
-              <video
+              <FadeVideo
                 key={src}
                 src={src}
+                poster={posterFor(src)}
                 autoPlay
                 muted
                 loop
                 playsInline
-                style={{ width: '100%', borderRadius: 10, display: 'block', background: '#000' }}
+                wrapperStyle={{ borderRadius: 10, overflow: 'hidden', background: '#000' }}
               />
             ))}
 

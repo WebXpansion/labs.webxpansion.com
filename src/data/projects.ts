@@ -27,6 +27,16 @@ export interface Project {
   poster?: string
 }
 
+/** Every video under public/videos/ has a matching first-frame still under
+ *  public/images/posters/ (same basename, .webp) — generated once via
+ *  ffmpeg. Used as a <video poster> for every clip (not just the card's
+ *  main `video`) so nothing ever shows a black frame before it starts
+ *  decoding, on mobile or desktop. */
+export function posterFor(video: string): string {
+  const name = video.split('/').pop()?.replace(/\.mp4$/i, '')
+  return `/images/posters/${name}.webp`
+}
+
 function slugify(title: string) {
   return title
     .toLowerCase()
