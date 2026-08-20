@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { projects } from '../../data/projects'
+import { posterFor, projects } from '../../data/projects'
 import type { Project } from '../../data/projects'
+import { FadeVideo } from '../FadeVideo'
 
 interface MobileFeedProps {
   onSelect: (project: Project) => void
@@ -145,19 +146,22 @@ export function MobileFeed({ onSelect, dimmed }: MobileFeedProps) {
               }}
             >
               {project.video ? (
-                <video
-                  ref={(el) => {
+                <FadeVideo
+                  videoRef={(el) => {
                     videoRefs.current[i] = el
                   }}
                   src={project.video}
                   // Frame extraite de la vidéo elle-même (voir src/data/projects.ts) —
                   // le poster est donc visuellement identique au premier instant de la
-                  // lecture, pas de saut. Repli sur bgImage pour d'anciennes entrées.
-                  poster={project.poster ?? project.bgImage}
+                  // lecture. Reste affiché en fondu jusqu'à ce que la vidéo peigne
+                  // réellement sa première image, pour éviter tout flash noir au
+                  // démarrage sur mobile.
+                  poster={project.poster ?? posterFor(project.video)}
                   muted
                   loop
                   playsInline
                   preload="metadata"
+                  wrapperStyle={{ position: 'absolute', inset: 0 }}
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               ) : (
