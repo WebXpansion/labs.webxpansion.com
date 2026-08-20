@@ -371,13 +371,21 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                   muted
                   loop
                   playsInline
-                  wrapperStyle={{ borderRadius: 10, overflow: 'hidden', background: '#000' }}
+                  // flexShrink: 0 — without it, flexbox compresses this item
+                  // (rather than letting `.overlay-media`'s overflow-y:auto
+                  // scroll) whenever the gallery's total content height
+                  // exceeds the available space, e.g. once there are 3+
+                  // clips. The <video> inside keeps rendering at its true
+                  // 16:9 height (derived from its own width, not the
+                  // shrunk wrapper), so the wrapper's `overflow: hidden`
+                  // then crops it — the "not 16:9" bug.
+                  wrapperStyle={{ borderRadius: 10, overflow: 'hidden', background: '#000', flexShrink: 0 }}
                 />
               ) : (
                 <img
                   src={project.bgImage}
                   alt={project.title}
-                  style={{ width: '100%', borderRadius: 10, display: 'block' }}
+                  style={{ width: '100%', borderRadius: 10, display: 'block', flexShrink: 0 }}
                 />
               ))}
 
@@ -390,7 +398,9 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                 muted
                 loop
                 playsInline
-                wrapperStyle={{ borderRadius: 10, overflow: 'hidden', background: '#000' }}
+                // See flexShrink note above — same fix applies to every clip
+                // in the gallery.
+                wrapperStyle={{ borderRadius: 10, overflow: 'hidden', background: '#000', flexShrink: 0 }}
               />
             ))}
 
@@ -399,7 +409,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                 key={src}
                 src={src}
                 alt={project.title}
-                style={{ width: '100%', borderRadius: 10, display: 'block' }}
+                style={{ width: '100%', borderRadius: 10, display: 'block', flexShrink: 0 }}
               />
             ))}
           </div>
