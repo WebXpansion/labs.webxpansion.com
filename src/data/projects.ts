@@ -226,7 +226,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/france-repousse.webp',
     url: 'https://france-repousse.vercel.app/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
-    description: '',
+    description:
+      'Une forêt 3D évolutive où chaque contribution permet de planter un arbre, soutenir les pompiers et faire progressivement renaître tout un écosystème.',
     // Vidéos supplémentaires affichées dans l'overlay du projet.
     videos: [
       '/videos/france-repousse-projet-1.mp4',
@@ -247,7 +248,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/catpure.webp',
-    description: '',
+    description:
+      'Une expérience web immersive et scénarisée qui dévoile, étape par étape, la transformation d’une série de photographies en un modèle 3D réaliste et interactif grâce au Gaussian Splatting.',
     videos: ['/videos/capture-engine-projet.mp4'],
   },
   {
@@ -263,7 +265,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
-    description: '',
+    description:
+      'Une expérience web immersive pensée pour valoriser la nouvelle génération d’aéronefs légers de Gryphen, en dévoilant progressivement ses modèles, ses technologies et son savoir-faire au fil du scroll.',
     videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
   },
   {
@@ -277,7 +280,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/du-cote-de-chez-swan.webp',
     url: 'https://xn--ducotdechezswann-fqb.fr/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
-    description: '',
+    description:
+      'Un site vitrine élégant et immersif conçu pour valoriser le domaine, mettre en scène ses espaces de réception et simplifier la réservation pour tous types d’événements.',
     videos: [
       '/videos/du-cote-de-chez-swan-projet-1.mp4',
       '/videos/du-cote-de-chez-swan-projet-2.mp4',
@@ -297,7 +301,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/logitech.webp',
-    description: '',
+    description:
+      'Un configurateur 3D en temps réel, conçu avec TheNewFace sous Unreal Engine 5, permettant de découvrir et personnaliser un setup Sim Racing Logitech dans un environnement visuel haut de gamme.',
     videos: ['/videos/logitech-projet.mp4'],
   },
   {
@@ -313,7 +318,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/LDLC.webp',
-    description: '',
+    description:
+      'Un configurateur 3D interactif permettant de composer son PC en temps réel, avec visualisation instantanée du rendu, du prix, des performances et de la compatibilité des composants.',
     videos: ['/videos/ldlc-projet-1.mp4', '/videos/ldlc-projet-2.mp4'],
   },
   {
@@ -327,7 +333,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/fig-battle.webp',
     url: 'https://fig-battle.vercel.app/fr',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Figbattle.webp',
-    description: '',
+    description:
+      'Une plateforme de battle créative dédiée aux UI/UX designers, où chacun relève un thème aléatoire, conçoit une maquette, vote pour les meilleures créations et tente de remporter des récompenses.',
     videos: [
       '/videos/fig-battle-projet-1.mp4',
       '/videos/fig-battle-projet-2.mp4',
@@ -348,7 +355,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/turismo.webp',
-    description: '',
+    description:
+      'Un showroom 3D interactif permettant d’explorer chaque véhicule à 360°, d’en découvrir les caractéristiques en temps réel et de faciliter la réservation.',
     videos: ['/videos/turismo-projet.mp4'],
   },
   {
@@ -364,7 +372,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
-    description: '',
+    description:
+      'Une expérience e-commerce en 3D permettant d’explorer librement un univers modélisé, d’interagir avec les produits et d’accéder rapidement aux informations essentielles ainsi qu’au parcours d’achat.',
     videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
   },
   {
@@ -380,7 +389,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
-    description: '',
+    description:
+      'Une mise en scène digitale en 3D qui révèle, au fil du scroll, le design, les finitions et l’identité singulière d’une montre Franck Muller.',
     videos: ['/videos/franck-muller-projet.mp4'],
   },
   {
@@ -396,7 +406,8 @@ const RAW_PROJECTS: RawProject[] = [
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
-    description: '',
+    description:
+      'Un univers digital en 3D inspiré de la jungle, imaginé pour sublimer un parfum Cartier en révélant progressivement son flacon, ses inspirations et les ingrédients de sa fragrance.',
     videos: ['/videos/cartier-projet.mp4'],
   },
   {
@@ -411,7 +422,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/obrigado.webp',
     url: 'https://obrigadorodizio.com/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
-    description: '',
+    description:
+      'Un site vitrine chaleureux et coloré qui retranscrit l’ambiance brésilienne d’Obrigado Rodizio tout en simplifiant la découverte du concept et la réservation en ligne.',
     videos: [
       '/videos/obrigado-projet-1.mp4',
       '/videos/obrigado-projet-2.mp4',
@@ -430,7 +442,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/hangar-3d.webp',
     url: 'https://hangar-3d.vercel.app/fr',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/hangar3D.webp',
-    description: '',
+    description:
+      'Un configurateur 3D de hangar métallique permettant de personnaliser la structure, les dimensions et les équipements tout en visualisant instantanément le rendu, la compatibilité et le prix estimatif.',
     videos: ['/videos/hangar-3d-projet-1.mp4', '/videos/hangar-3d-projet-2.mp4'],
   },
   {
@@ -445,7 +458,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/hangar-metallique.webp',
     url: 'https://hangarmetal.fr/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/hangar3D.webp',
-    description: '',
+    description:
+      'Un site vitrine dynamique qui présente le savoir-faire de l’entreprise à travers des animations au scroll révélant progressivement les détails et la conception de ses hangars métalliques.',
     videos: ['/videos/hangar-metallique-projet.mp4'],
   },
   {
@@ -460,7 +474,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/falco-racing-3d.webp',
     url: 'https://falco-racing.com/product/3d-jantes-supermotard-falco-100-personnalisables-2',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/falco3D.webp',
-    description: '',
+    description:
+      'Un configurateur 3D interactif permettant de personnaliser des jantes en temps réel, d’en explorer les finitions et caractéristiques, et de visualiser instantanément le rendu final avant commande.',
     videos: ['/videos/falco-racing-3d-projet.mp4'],
   },
   {
@@ -475,7 +490,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/falco-racing.webp',
     url: 'https://falco-racing.com/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/falco.webp',
-    description: '',
+    description:
+      'Une boutique e-commerce pensée pour valoriser plus de 1 500 références de jantes et accessoires, avec un parcours de personnalisation clair, rapide et centré sur la compatibilité produit.',
     videos: ['/videos/falco-racing-projet.mp4'],
   },
 ]
