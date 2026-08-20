@@ -203,9 +203,8 @@ const RAW_PROJECTS: RawProject[] = [
     poster: '/images/posters/crazymon.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
-    // Capture de l'app elle-même (page Défis) en fond flouté, en local
-    // faute d'une image hébergée sur webxpansion.com pour ce projet.
-    bgImage: '/images/crazymon-defis.webp',
+    // Fond flouté fourni par Julien pour ce projet.
+    bgImage: '/images/crazymon-bg.webp',
     description:
       'Un site 3D gamifié qui recrée le frisson du pack opening grâce à des animations uniques selon la rareté des cartes et un système de quiz permettant de gagner des crédits et prolonger l’expérience.',
     // Vidéos supplémentaires affichées dans l'overlay du projet.
