@@ -337,10 +337,12 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
               gap: 24,
             }}
           >
-            {/* When a project has its own gallery clips (`videos`), the
-                overlay shows only those — not the card's "home" video used
-                in the slider/feed, which would just be a duplicate here. */}
+            {/* When a project has its own gallery clips (`videos`) or extra
+                screenshots (`images`), the overlay shows only those — not the
+                card's "home" video used in the slider/feed, which would just
+                be a duplicate here. */}
             {!project.videos?.length &&
+              !project.images?.length &&
               (project.video ? (
                 <video
                   key={project.video}
@@ -368,6 +370,15 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                 loop
                 playsInline
                 style={{ width: '100%', borderRadius: 10, display: 'block', background: '#000' }}
+              />
+            ))}
+
+            {project.images?.map((src) => (
+              <img
+                key={src}
+                src={src}
+                alt={project.title}
+                style={{ width: '100%', borderRadius: 10, display: 'block' }}
               />
             ))}
           </div>
