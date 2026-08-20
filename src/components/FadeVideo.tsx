@@ -14,13 +14,24 @@ interface FadeVideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   videoRef?: (el: HTMLVideoElement | null) => void
 }
 
-/** A <video> with its poster still kept on top, cross-fading out only once
- *  the video actually starts painting frames (`onPlaying`). Autoplaying
- *  video can otherwise show a black flash for a beat before its first
- *  decoded frame lands — this keeps the poster (the video's own first
- *  frame, see `posterFor` in data/projects.ts) visible through that gap
- *  instead, so playback starts as a smooth fade rather than a glitch. */
-export function FadeVideo({ src, poster, wrapperStyle, style, videoRef, onPlaying, ...videoProps }: FadeVideoProps) {
+/** A <video> with its poster still kept on top, cross-fading out once the
+ *  video has a decodable frame ready (`onLoadedData`) — deliberately NOT
+ *  gated on actual playback (`onPlaying`): autoplay can be delayed or
+ *  silently blocked (slow network, several videos competing for bandwidth
+ *  on mobile, iOS being picky), and waiting on it left the poster stuck
+ *  forever, making a project's videos indistinguishable from plain
+ *  images. `loadeddata` fires as soon as that first frame exists, which
+ *  is pixel-identical to the poster anyway (see `posterFor` in
+ *  data/projects.ts), so the swap is invisible — then playback catches up
+ *  underneath whenever the browser actually starts it.
+ *  Deliberately no `aspect-ratio`/forced height on the wrapper: inside a
+ *  column-flex layout (the overlay's gallery), `aspect-ratio` on a
+ *  stretched flex item collapses to 0 height in at least one engine we
+ *  tested (the width→aspect-ratio→height chain never resolves before
+ *  layout). Letting the <video> stay in normal flow — `width: 100%`,
+ *  `height: auto` — and sizing the poster overlay off its rendered box
+ *  is what actually works everywhere. */
+export function FadeVideo({ src, poster, wrapperStyle, style, videoRef, onLoadedData, ...videoProps }: FadeVideoProps) {
   const [showPoster, setShowPoster] = useState(true)
   return (
     <div style={{ position: 'relative', ...wrapperStyle }}>
@@ -28,9 +39,9 @@ export function FadeVideo({ src, poster, wrapperStyle, style, videoRef, onPlayin
         ref={videoRef}
         src={src}
         poster={poster}
-        onPlaying={(e) => {
+        onLoadedData={(e) => {
           setShowPoster(false)
-          onPlaying?.(e)
+          onLoadedData?.(e)
         }}
         style={{ display: 'block', width: '100%', ...style }}
         {...videoProps}
