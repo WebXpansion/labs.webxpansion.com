@@ -77,6 +77,20 @@ const RAW_PROJECTS: RawProject[] = [
     ],
   },
   {
+    id: 11,
+    title: 'Franck Muller',
+    category: '3D',
+    year: '2026',
+    tags: ['GSAP'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/franck-muller.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
+    description: '',
+    videos: ['/videos/franck-muller-projet.mp4'],
+  },
+  {
     id: 17,
     title: 'AcWin',
     // Catégorie non précisée par Julien — déduite du contenu (stratégies
@@ -148,6 +162,36 @@ const RAW_PROJECTS: RawProject[] = [
     ],
   },
   {
+    id: 9,
+    title: 'MCM',
+    category: 'E-commerce',
+    year: '2026',
+    tags: ['Expérience immersive 3D', 'Unreal Engine 5'],
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/mcm.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
+    description: '',
+    videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
+  },
+  
+  
+  {
+    id: 10,
+    title: 'Cartier',
+    category: '3D',
+    year: '2025',
+    tags: ['Expérience immersive', 'Unreal Engine 5'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/cartier.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
+    description: '',
+    videos: ['/videos/cartier-projet.mp4'],
+  },
+  {
     id: 6,
     title: 'Flo Business',
     category: 'Vitrine',
@@ -187,24 +231,7 @@ const RAW_PROJECTS: RawProject[] = [
     // détail d'une carte) affichées après les vidéos dans l'overlay.
     images: ['/images/crazymon-defis.webp', '/images/crazymon-collection.webp', '/images/crazymon-carte-detail.webp'],
   },
-  {
-    id: 13,
-    title: 'France Repousse',
-    category: '3D',
-    year: '2026',
-    tags: ['Expérience immersive'],
-    // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
-    video: '/videos/france-repousse.mp4',
-    url: 'https://france-repousse.vercel.app/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
-    description: '',
-    // Vidéos supplémentaires affichées dans l'overlay du projet.
-    videos: [
-      '/videos/france-repousse-projet-1.mp4',
-      '/videos/france-repousse-projet-2.mp4',
-      '/videos/france-repousse-projet-3.mp4',
-    ],
-  },
+  
   {
     id: 0,
     title: 'Capture Engine',
@@ -220,49 +247,24 @@ const RAW_PROJECTS: RawProject[] = [
     videos: ['/videos/capture-engine-projet.mp4'],
   },
   {
-    id: 2,
-    title: 'Gryphen',
+    id: 111,
+    title: 'Obrigado',
     category: 'Vitrine',
-    year: '2026',
+    year: '2025',
     tags: ['GSAP', 'HTML/CSS/JS'],
-    // Réencodées en fast-start (voir public/videos/) — home en remux, projets en CRF 26.
-    video: '/videos/gryphen.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
-    description: '',
-    videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
-  },
-  {
-    id: 4,
-    title: 'Du coté de chez swan',
-    category: 'Vitrine',
-    year: '2026',
-    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
-    video: '/videos/du-cote-de-chez-swan.mp4',
-    url: 'https://xn--ducotdechezswann-fqb.fr/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/obrigado.mp4',
+    url: 'https://obrigadorodizio.com/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
     description: '',
     videos: [
-      '/videos/du-cote-de-chez-swan-projet-1.mp4',
-      '/videos/du-cote-de-chez-swan-projet-2.mp4',
-      '/videos/du-cote-de-chez-swan-projet-3.mp4',
+      '/videos/obrigado-projet-1.mp4',
+      '/videos/obrigado-projet-2.mp4',
+      '/videos/obrigado-projet-3.mp4',
     ],
   },
-  {
-    id: 15,
-    title: 'Logitech',
-    category: 'Configurateur 3D',
-    year: '2026',
-    tags: ['Expérience immersive', 'Unreal Engine 5'],
-    // Réencodées en fast-start (voir public/videos/) — projet recompressé en CRF 26 (bitrate trop élevé).
-    video: '/videos/logitech.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/logitech.webp',
-    description: '',
-    videos: ['/videos/logitech-projet.mp4'],
-  },
+
+  
   {
     id: 7,
     title: 'LDLC',
@@ -308,64 +310,69 @@ const RAW_PROJECTS: RawProject[] = [
     description: '',
     videos: ['/videos/turismo-projet.mp4'],
   },
+
   {
-    id: 9,
-    title: 'MCM',
-    category: 'E-commerce',
-    year: '2026',
-    tags: ['Expérience immersive 3D', 'Unreal Engine 5'],
-    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
-    video: '/videos/mcm.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
-    description: '',
-    videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
-  },
-  {
-    id: 11,
-    title: 'Franck Muller',
-    category: '3D',
-    year: '2026',
-    tags: ['GSAP'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/franck-muller.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
-    description: '',
-    videos: ['/videos/franck-muller-projet.mp4'],
-  },
-  {
-    id: 10,
-    title: 'Cartier',
-    category: '3D',
-    year: '2025',
-    tags: ['Expérience immersive', 'Unreal Engine 5'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/cartier.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
-    description: '',
-    videos: ['/videos/cartier-projet.mp4'],
-  },
-  {
-    id: 111,
-    title: 'Obrigado',
+    id: 2,
+    title: 'Gryphen',
     category: 'Vitrine',
-    year: '2025',
+    year: '2026',
     tags: ['GSAP', 'HTML/CSS/JS'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/obrigado.mp4',
-    url: 'https://obrigadorodizio.com/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
+    // Réencodées en fast-start (voir public/videos/) — home en remux, projets en CRF 26.
+    video: '/videos/gryphen.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
+    description: '',
+    videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
+  },
+ 
+  {
+    id: 13,
+    title: 'France Repousse',
+    category: '3D',
+    year: '2026',
+    tags: ['Expérience immersive'],
+    // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
+    video: '/videos/france-repousse.mp4',
+    url: 'https://france-repousse.vercel.app/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
+    description: '',
+    // Vidéos supplémentaires affichées dans l'overlay du projet.
+    videos: [
+      '/videos/france-repousse-projet-1.mp4',
+      '/videos/france-repousse-projet-2.mp4',
+      '/videos/france-repousse-projet-3.mp4',
+    ],
+  },
+  {
+    id: 4,
+    title: 'Du coté de chez swan',
+    category: 'Vitrine',
+    year: '2026',
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/du-cote-de-chez-swan.mp4',
+    url: 'https://xn--ducotdechezswann-fqb.fr/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
     description: '',
     videos: [
-      '/videos/obrigado-projet-1.mp4',
-      '/videos/obrigado-projet-2.mp4',
-      '/videos/obrigado-projet-3.mp4',
+      '/videos/du-cote-de-chez-swan-projet-1.mp4',
+      '/videos/du-cote-de-chez-swan-projet-2.mp4',
+      '/videos/du-cote-de-chez-swan-projet-3.mp4',
     ],
+  },
+  {
+    id: 15,
+    title: 'Logitech',
+    category: 'Configurateur 3D',
+    year: '2026',
+    tags: ['Expérience immersive', 'Unreal Engine 5'],
+    // Réencodées en fast-start (voir public/videos/) — projet recompressé en CRF 26 (bitrate trop élevé).
+    video: '/videos/logitech.mp4',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/logitech.webp',
+    description: '',
+    videos: ['/videos/logitech-projet.mp4'],
   },
   {
     id: 1,
@@ -419,6 +426,7 @@ const RAW_PROJECTS: RawProject[] = [
     description: '',
     videos: ['/videos/falco-racing-projet.mp4'],
   },
+
 ]
 
 export const projects: Project[] = RAW_PROJECTS.map((p) => ({
