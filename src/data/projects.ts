@@ -21,6 +21,10 @@ export interface Project {
   /** Extra static screenshots shown in the same overlay gallery, after any
    *  `videos` — for projects better shown with a few key screens than clips. */
   images?: string[]
+  /** First frame extracted from `video`, used as the mobile feed's <video
+   *  poster> so the still shown before playback starts is pixel-identical
+   *  to the video's own opening frame (no visible jump on autoplay). */
+  poster?: string
 }
 
 function slugify(title: string) {
@@ -44,6 +48,7 @@ interface RawProject {
   description: string
   videos?: string[]
   images?: string[]
+  poster?: string
 }
 
 const RAW_PROJECTS: RawProject[] = [
@@ -57,6 +62,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Maquette Figma'],
     // Vidéo courte (boucle) utilisée comme texture de la carte dans le slider.
     video: '/videos/essencial-airsoft.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/essencial-airsoft.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     // Capture de la page produit en local, faute d'image hébergée sur
@@ -77,20 +84,6 @@ const RAW_PROJECTS: RawProject[] = [
     ],
   },
   {
-    id: 11,
-    title: 'Franck Muller',
-    category: '3D',
-    year: '2026',
-    tags: ['GSAP'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/franck-muller.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
-    description: '',
-    videos: ['/videos/franck-muller-projet.mp4'],
-  },
-  {
     id: 17,
     title: 'AcWin',
     // Catégorie non précisée par Julien — déduite du contenu (stratégies
@@ -100,6 +93,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Conception', 'Développement', 'Animé'],
     // Vidéo courte (boucle) utilisée comme texture de la carte dans le slider.
     video: '/videos/acwin.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/acwin.webp',
     // Pas de lien fourni par Julien pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     // Frame extraite de la vidéo d'accueil en local, faute d'image hébergée
@@ -122,6 +117,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Conception', 'Développement', 'Animé'],
     // Vidéo courte (boucle) utilisée comme texture de la carte dans le slider.
     video: '/videos/trackmotard.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/trackmotard.webp',
     // Pas de lien fourni par Julien pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     // Capture de la page moto en local, faute d'image hébergée sur
@@ -144,6 +141,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Concept', 'Maquette Figma', 'Jeux vidéo'],
     // Vidéo courte (boucle) utilisée comme texture de la carte dans le slider.
     video: '/videos/call-of-duty-mw2.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/call-of-duty-mw2.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     // Capture du menu principal, en local faute d'image hébergée sur
@@ -162,36 +161,6 @@ const RAW_PROJECTS: RawProject[] = [
     ],
   },
   {
-    id: 9,
-    title: 'MCM',
-    category: 'E-commerce',
-    year: '2026',
-    tags: ['Expérience immersive 3D', 'Unreal Engine 5'],
-    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
-    video: '/videos/mcm.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
-    description: '',
-    videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
-  },
-  
-  
-  {
-    id: 10,
-    title: 'Cartier',
-    category: '3D',
-    year: '2025',
-    tags: ['Expérience immersive', 'Unreal Engine 5'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/cartier.mp4',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
-    description: '',
-    videos: ['/videos/cartier-projet.mp4'],
-  },
-  {
     id: 6,
     title: 'Flo Business',
     category: 'Vitrine',
@@ -201,6 +170,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['GSAP', 'HTML/CSS/JS', 'Conception', 'Développement'],
     // Vidéo courte (boucle) utilisée comme texture de la carte dans le slider.
     video: '/videos/flo-business.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/flo-business.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     // Frame extraite de la vidéo projet en local, faute d'image hébergée
@@ -218,6 +189,8 @@ const RAW_PROJECTS: RawProject[] = [
     year: '2026',
     // Vidéo courte (boucle) utilisée comme texture de la carte dans le slider.
     video: '/videos/crazymon.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/crazymon.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     // Capture de l'app elle-même (page Défis) en fond flouté, en local
@@ -231,7 +204,26 @@ const RAW_PROJECTS: RawProject[] = [
     // détail d'une carte) affichées après les vidéos dans l'overlay.
     images: ['/images/crazymon-defis.webp', '/images/crazymon-collection.webp', '/images/crazymon-carte-detail.webp'],
   },
-  
+  {
+    id: 13,
+    title: 'France Repousse',
+    category: '3D',
+    year: '2026',
+    tags: ['Expérience immersive'],
+    // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
+    video: '/videos/france-repousse.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/france-repousse.webp',
+    url: 'https://france-repousse.vercel.app/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
+    description: '',
+    // Vidéos supplémentaires affichées dans l'overlay du projet.
+    videos: [
+      '/videos/france-repousse-projet-1.mp4',
+      '/videos/france-repousse-projet-2.mp4',
+      '/videos/france-repousse-projet-3.mp4',
+    ],
+  },
   {
     id: 0,
     title: 'Capture Engine',
@@ -240,6 +232,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['GSAP', 'HTML/CSS'],
     // Réencodées en 720p/H.264/MP4 avec fast-start (voir public/videos/).
     video: '/videos/capture-engine.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/capture-engine.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/catpure.webp',
@@ -247,24 +241,55 @@ const RAW_PROJECTS: RawProject[] = [
     videos: ['/videos/capture-engine-projet.mp4'],
   },
   {
-    id: 111,
-    title: 'Obrigado',
+    id: 2,
+    title: 'Gryphen',
     category: 'Vitrine',
-    year: '2025',
+    year: '2026',
     tags: ['GSAP', 'HTML/CSS/JS'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/obrigado.mp4',
-    url: 'https://obrigadorodizio.com/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
+    // Réencodées en fast-start (voir public/videos/) — home en remux, projets en CRF 26.
+    video: '/videos/gryphen.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/gryphen.webp',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
+    description: '',
+    videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
+  },
+  {
+    id: 4,
+    title: 'Du coté de chez swan',
+    category: 'Vitrine',
+    year: '2026',
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/du-cote-de-chez-swan.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/du-cote-de-chez-swan.webp',
+    url: 'https://xn--ducotdechezswann-fqb.fr/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
     description: '',
     videos: [
-      '/videos/obrigado-projet-1.mp4',
-      '/videos/obrigado-projet-2.mp4',
-      '/videos/obrigado-projet-3.mp4',
+      '/videos/du-cote-de-chez-swan-projet-1.mp4',
+      '/videos/du-cote-de-chez-swan-projet-2.mp4',
+      '/videos/du-cote-de-chez-swan-projet-3.mp4',
     ],
   },
-
-  
+  {
+    id: 15,
+    title: 'Logitech',
+    category: 'Configurateur 3D',
+    year: '2026',
+    tags: ['Expérience immersive', 'Unreal Engine 5'],
+    // Réencodées en fast-start (voir public/videos/) — projet recompressé en CRF 26 (bitrate trop élevé).
+    video: '/videos/logitech.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/logitech.webp',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/logitech.webp',
+    description: '',
+    videos: ['/videos/logitech-projet.mp4'],
+  },
   {
     id: 7,
     title: 'LDLC',
@@ -273,6 +298,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Three.js'],
     // Réencodées en fast-start (voir public/videos/) — projet 1 recompressé en CRF 26 (poids trop élevé).
     video: '/videos/ldlc.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/ldlc.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/LDLC.webp',
@@ -286,6 +313,8 @@ const RAW_PROJECTS: RawProject[] = [
     year: '2026',
     // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
     video: '/videos/fig-battle.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/fig-battle.webp',
     url: 'https://fig-battle.vercel.app/fr',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Figbattle.webp',
     description: '',
@@ -304,75 +333,80 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Three.js'],
     // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
     video: '/videos/turismo.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/turismo.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/turismo.webp',
     description: '',
     videos: ['/videos/turismo-projet.mp4'],
   },
-
   {
-    id: 2,
-    title: 'Gryphen',
-    category: 'Vitrine',
+    id: 9,
+    title: 'MCM',
+    category: 'E-commerce',
     year: '2026',
-    tags: ['GSAP', 'HTML/CSS/JS'],
-    // Réencodées en fast-start (voir public/videos/) — home en remux, projets en CRF 26.
-    video: '/videos/gryphen.mp4',
+    tags: ['Expérience immersive 3D', 'Unreal Engine 5'],
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/mcm.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/mcm.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
     description: '',
-    videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
+    videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
   },
- 
   {
-    id: 13,
-    title: 'France Repousse',
+    id: 11,
+    title: 'Franck Muller',
     category: '3D',
     year: '2026',
-    tags: ['Expérience immersive'],
-    // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
-    video: '/videos/france-repousse.mp4',
-    url: 'https://france-repousse.vercel.app/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
-    description: '',
-    // Vidéos supplémentaires affichées dans l'overlay du projet.
-    videos: [
-      '/videos/france-repousse-projet-1.mp4',
-      '/videos/france-repousse-projet-2.mp4',
-      '/videos/france-repousse-projet-3.mp4',
-    ],
-  },
-  {
-    id: 4,
-    title: 'Du coté de chez swan',
-    category: 'Vitrine',
-    year: '2026',
-    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
-    video: '/videos/du-cote-de-chez-swan.mp4',
-    url: 'https://xn--ducotdechezswann-fqb.fr/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
-    description: '',
-    videos: [
-      '/videos/du-cote-de-chez-swan-projet-1.mp4',
-      '/videos/du-cote-de-chez-swan-projet-2.mp4',
-      '/videos/du-cote-de-chez-swan-projet-3.mp4',
-    ],
-  },
-  {
-    id: 15,
-    title: 'Logitech',
-    category: 'Configurateur 3D',
-    year: '2026',
-    tags: ['Expérience immersive', 'Unreal Engine 5'],
-    // Réencodées en fast-start (voir public/videos/) — projet recompressé en CRF 26 (bitrate trop élevé).
-    video: '/videos/logitech.mp4',
+    tags: ['GSAP'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/franck-muller.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/franck-muller.webp',
     // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
     url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/logitech.webp',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
     description: '',
-    videos: ['/videos/logitech-projet.mp4'],
+    videos: ['/videos/franck-muller-projet.mp4'],
+  },
+  {
+    id: 10,
+    title: 'Cartier',
+    category: '3D',
+    year: '2025',
+    tags: ['Expérience immersive', 'Unreal Engine 5'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/cartier.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/cartier.webp',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
+    description: '',
+    videos: ['/videos/cartier-projet.mp4'],
+  },
+  {
+    id: 111,
+    title: 'Obrigado',
+    category: 'Vitrine',
+    year: '2025',
+    tags: ['GSAP', 'HTML/CSS/JS'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/obrigado.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/obrigado.webp',
+    url: 'https://obrigadorodizio.com/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
+    description: '',
+    videos: [
+      '/videos/obrigado-projet-1.mp4',
+      '/videos/obrigado-projet-2.mp4',
+      '/videos/obrigado-projet-3.mp4',
+    ],
   },
   {
     id: 1,
@@ -382,6 +416,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Three.js'],
     // Réencodées en fast-start (voir public/videos/) — projet 1 recompressé en CRF 26 (bitrate trop élevé).
     video: '/videos/hangar-3d.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/hangar-3d.webp',
     url: 'https://hangar-3d.vercel.app/fr',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/hangar3D.webp',
     description: '',
@@ -395,6 +431,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['GSAP', 'HTML/CSS/JS'],
     // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
     video: '/videos/hangar-metallique.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/hangar-metallique.webp',
     url: 'https://hangarmetal.fr/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/hangar3D.webp',
     description: '',
@@ -408,6 +446,8 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['Three.js'],
     // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
     video: '/videos/falco-racing-3d.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/falco-racing-3d.webp',
     url: 'https://falco-racing.com/product/3d-jantes-supermotard-falco-100-personnalisables-2',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/falco3D.webp',
     description: '',
@@ -421,12 +461,13 @@ const RAW_PROJECTS: RawProject[] = [
     tags: ['HTML/CSS/JS'],
     // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
     video: '/videos/falco-racing.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/falco-racing.webp',
     url: 'https://falco-racing.com/',
     bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/falco.webp',
     description: '',
     videos: ['/videos/falco-racing-projet.mp4'],
   },
-
 ]
 
 export const projects: Project[] = RAW_PROJECTS.map((p) => ({
@@ -442,4 +483,5 @@ export const projects: Project[] = RAW_PROJECTS.map((p) => ({
   bgImage: p.bgImage,
   videos: p.videos,
   images: p.images,
+  poster: p.poster,
 }))
