@@ -6,11 +6,18 @@ import { Header } from './components/Header'
 import { Loader } from './components/Loader'
 import { VideoPreloader } from './components/VideoPreloader'
 import { FluidDistortion, type FluidDistortionOptions } from './components/canvasui/FluidDistortion'
-import { isMobileDevice } from './utils/device'
+import { isMobileDevice, isSafariBrowser } from './utils/device'
 
 // Site-wide fluid pointer effect — desktop only, per request (skips mobile
 // entirely: no wrapper, no WebGL2 fluid sim, no extra listeners there).
 const isMobile = isMobileDevice()
+
+// Also skipped on desktop Safari: the effect drives its CSS filter by
+// re-encoding a PNG + swapping an SVG <feImage> href every frame (see
+// isSafariBrowser's comment in utils/device.ts for why that's specifically
+// bad in Safari) — this was causing heavy scroll lag on both the slider and
+// list pages in Safari while Chrome ran the same code smoothly.
+const isSafariDesktop = !isMobile && isSafariBrowser()
 
 // Final tuned values for the site-wide liquid effect (found via the old
 // temporary debug panel, now removed since the tuning is done).
@@ -54,7 +61,7 @@ export default function App() {
           request instead of letting it finish in the background. */}
       <VideoPreloader />
 
-      {isMobile ? (
+      {isMobile || isSafariDesktop ? (
         siteContent
       ) : (
         <FluidDistortion

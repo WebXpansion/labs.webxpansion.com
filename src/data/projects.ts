@@ -94,6 +94,77 @@ const RAW_PROJECTS: RawProject[] = [
     ],
   },
   {
+    id: 111,
+    title: 'Obrigado',
+    category: 'Vitrine',
+    year: '2025',
+    tags: ['GSAP', 'HTML/CSS/JS'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/obrigado.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/obrigado.webp',
+    url: 'https://obrigadorodizio.com/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
+    description:
+      'Un site vitrine chaleureux et coloré qui retranscrit l’ambiance brésilienne d’Obrigado Rodizio tout en simplifiant la découverte du concept et la réservation en ligne.',
+    videos: [
+      '/videos/obrigado-projet-1.mp4',
+      '/videos/obrigado-projet-2.mp4',
+      '/videos/obrigado-projet-3.mp4',
+    ],
+  },
+  {
+    id: 9,
+    title: 'MCM',
+    category: 'E-commerce',
+    year: '2026',
+    tags: ['Expérience immersive 3D', 'Unreal Engine 5'],
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/mcm.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/mcm.webp',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
+    description:
+      'Une expérience e-commerce en 3D permettant d’explorer librement un univers modélisé, d’interagir avec les produits et d’accéder rapidement aux informations essentielles ainsi qu’au parcours d’achat.',
+    videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
+  },
+  {
+    id: 11,
+    title: 'Franck Muller',
+    category: '3D',
+    year: '2026',
+    tags: ['GSAP'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/franck-muller.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/franck-muller.webp',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
+    description:
+      'Une mise en scène digitale en 3D qui révèle, au fil du scroll, le design, les finitions et l’identité singulière d’une montre Franck Muller.',
+    videos: ['/videos/franck-muller-projet.mp4'],
+  },
+  {
+    id: 10,
+    title: 'Cartier',
+    category: '3D',
+    year: '2025',
+    tags: ['Expérience immersive', 'Unreal Engine 5'],
+    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
+    video: '/videos/cartier.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/cartier.webp',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
+    description:
+      'Un univers digital en 3D inspiré de la jungle, imaginé pour sublimer un parfum Cartier en révélant progressivement son flacon, ses inspirations et les ingrédients de sa fragrance.',
+    videos: ['/videos/cartier-projet.mp4'],
+  },
+  {
     id: 17,
     title: 'AcWin',
     // Catégorie non précisée par Julien — déduite du contenu (stratégies
@@ -213,27 +284,7 @@ const RAW_PROJECTS: RawProject[] = [
     // détail d'une carte) affichées après les vidéos dans l'overlay.
     images: ['/images/crazymon-defis.webp', '/images/crazymon-collection.webp', '/images/crazymon-carte-detail.webp'],
   },
-  {
-    id: 13,
-    title: 'France Repousse',
-    category: '3D',
-    year: '2026',
-    tags: ['Expérience immersive'],
-    // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
-    video: '/videos/france-repousse.mp4',
-    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
-    poster: '/images/posters/france-repousse.webp',
-    url: 'https://france-repousse.vercel.app/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
-    description:
-      'Une forêt 3D évolutive où chaque contribution permet de planter un arbre, soutenir les pompiers et faire progressivement renaître tout un écosystème.',
-    // Vidéos supplémentaires affichées dans l'overlay du projet.
-    videos: [
-      '/videos/france-repousse-projet-1.mp4',
-      '/videos/france-repousse-projet-2.mp4',
-      '/videos/france-repousse-projet-3.mp4',
-    ],
-  },
+
   {
     id: 0,
     title: 'Capture Engine',
@@ -251,42 +302,8 @@ const RAW_PROJECTS: RawProject[] = [
       'Une expérience web immersive et scénarisée qui dévoile, étape par étape, la transformation d’une série de photographies en un modèle 3D réaliste et interactif grâce au Gaussian Splatting.',
     videos: ['/videos/capture-engine-projet.mp4'],
   },
-  {
-    id: 2,
-    title: 'Gryphen',
-    category: 'Vitrine',
-    year: '2026',
-    tags: ['GSAP', 'HTML/CSS/JS'],
-    // Réencodées en fast-start (voir public/videos/) — home en remux, projets en CRF 26.
-    video: '/videos/gryphen.mp4',
-    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
-    poster: '/images/posters/gryphen.webp',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
-    description:
-      'Une expérience web immersive pensée pour valoriser la nouvelle génération d’aéronefs légers de Gryphen, en dévoilant progressivement ses modèles, ses technologies et son savoir-faire au fil du scroll.',
-    videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
-  },
-  {
-    id: 4,
-    title: 'Du coté de chez swan',
-    category: 'Vitrine',
-    year: '2026',
-    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
-    video: '/videos/du-cote-de-chez-swan.mp4',
-    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
-    poster: '/images/posters/du-cote-de-chez-swan.webp',
-    url: 'https://xn--ducotdechezswann-fqb.fr/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
-    description:
-      'Un site vitrine élégant et immersif conçu pour valoriser le domaine, mettre en scène ses espaces de réception et simplifier la réservation pour tous types d’événements.',
-    videos: [
-      '/videos/du-cote-de-chez-swan-projet-1.mp4',
-      '/videos/du-cote-de-chez-swan-projet-2.mp4',
-      '/videos/du-cote-de-chez-swan-projet-3.mp4',
-    ],
-  },
+
+ 
   {
     id: 15,
     title: 'Logitech',
@@ -358,77 +375,65 @@ const RAW_PROJECTS: RawProject[] = [
       'Un showroom 3D interactif permettant d’explorer chaque véhicule à 360°, d’en découvrir les caractéristiques en temps réel et de faciliter la réservation.',
     videos: ['/videos/turismo-projet.mp4'],
   },
+  
   {
-    id: 9,
-    title: 'MCM',
-    category: 'E-commerce',
-    year: '2026',
-    tags: ['Expérience immersive 3D', 'Unreal Engine 5'],
-    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
-    video: '/videos/mcm.mp4',
-    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
-    poster: '/images/posters/mcm.webp',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/MCM.webp',
-    description:
-      'Une expérience e-commerce en 3D permettant d’explorer librement un univers modélisé, d’interagir avec les produits et d’accéder rapidement aux informations essentielles ainsi qu’au parcours d’achat.',
-    videos: ['/videos/mcm-projet-1.mp4', '/videos/mcm-projet-2.mp4'],
-  },
-  {
-    id: 11,
-    title: 'Franck Muller',
-    category: '3D',
-    year: '2026',
-    tags: ['GSAP'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/franck-muller.mp4',
-    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
-    poster: '/images/posters/franck-muller.webp',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/fM.webp',
-    description:
-      'Une mise en scène digitale en 3D qui révèle, au fil du scroll, le design, les finitions et l’identité singulière d’une montre Franck Muller.',
-    videos: ['/videos/franck-muller-projet.mp4'],
-  },
-  {
-    id: 10,
-    title: 'Cartier',
-    category: '3D',
-    year: '2025',
-    tags: ['Expérience immersive', 'Unreal Engine 5'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/cartier.mp4',
-    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
-    poster: '/images/posters/cartier.webp',
-    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
-    url: '',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/Cartier.webp',
-    description:
-      'Un univers digital en 3D inspiré de la jungle, imaginé pour sublimer un parfum Cartier en révélant progressivement son flacon, ses inspirations et les ingrédients de sa fragrance.',
-    videos: ['/videos/cartier-projet.mp4'],
-  },
-  {
-    id: 111,
-    title: 'Obrigado',
+    id: 2,
+    title: 'Gryphen',
     category: 'Vitrine',
-    year: '2025',
+    year: '2026',
     tags: ['GSAP', 'HTML/CSS/JS'],
-    // Réencodées en fast-start (voir public/videos/) — bitrate d'origine déjà bon.
-    video: '/videos/obrigado.mp4',
+    // Réencodées en fast-start (voir public/videos/) — home en remux, projets en CRF 26.
+    video: '/videos/gryphen.mp4',
     // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
-    poster: '/images/posters/obrigado.webp',
-    url: 'https://obrigadorodizio.com/',
-    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/obrigado.webp',
+    poster: '/images/posters/gryphen.webp',
+    // Pas de lien externe pour ce projet — pas de flèche affichée dans l'overlay.
+    url: '',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/grypen.webp',
     description:
-      'Un site vitrine chaleureux et coloré qui retranscrit l’ambiance brésilienne d’Obrigado Rodizio tout en simplifiant la découverte du concept et la réservation en ligne.',
+      'Une expérience web immersive pensée pour valoriser la nouvelle génération d’aéronefs légers de Gryphen, en dévoilant progressivement ses modèles, ses technologies et son savoir-faire au fil du scroll.',
+    videos: ['/videos/gryphen-projet-1.mp4', '/videos/gryphen-projet-2.mp4'],
+  },
+  {
+    id: 4,
+    title: 'Du coté de chez swan',
+    category: 'Vitrine',
+    year: '2026',
+    // Réencodées en CRF 26 (bitrate d'origine trop élevé) + fast-start (voir public/videos/).
+    video: '/videos/du-cote-de-chez-swan.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/du-cote-de-chez-swan.webp',
+    url: 'https://xn--ducotdechezswann-fqb.fr/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/frame_77.webp',
+    description:
+      'Un site vitrine élégant et immersif conçu pour valoriser le domaine, mettre en scène ses espaces de réception et simplifier la réservation pour tous types d’événements.',
     videos: [
-      '/videos/obrigado-projet-1.mp4',
-      '/videos/obrigado-projet-2.mp4',
-      '/videos/obrigado-projet-3.mp4',
+      '/videos/du-cote-de-chez-swan-projet-1.mp4',
+      '/videos/du-cote-de-chez-swan-projet-2.mp4',
+      '/videos/du-cote-de-chez-swan-projet-3.mp4',
     ],
   },
+  {
+    id: 13,
+    title: 'France Repousse',
+    category: '3D',
+    year: '2026',
+    tags: ['Expérience immersive'],
+    // Réencodée en 720p/H.264/MP4 avec fast-start (voir public/videos/).
+    video: '/videos/france-repousse.mp4',
+    // Première frame de la vidéo, extraite via ffmpeg — évite tout saut visuel au démarrage de la lecture sur mobile.
+    poster: '/images/posters/france-repousse.webp',
+    url: 'https://france-repousse.vercel.app/',
+    bgImage: 'https://webxpansion.com/wp-content/uploads/2026/08/france-home.webp',
+    description:
+      'Une forêt 3D évolutive où chaque contribution permet de planter un arbre, soutenir les pompiers et faire progressivement renaître tout un écosystème.',
+    // Vidéos supplémentaires affichées dans l'overlay du projet.
+    videos: [
+      '/videos/france-repousse-projet-1.mp4',
+      '/videos/france-repousse-projet-2.mp4',
+      '/videos/france-repousse-projet-3.mp4',
+    ],
+  },
+ 
   {
     id: 1,
     title: 'Hangar 3D',
@@ -493,6 +498,7 @@ const RAW_PROJECTS: RawProject[] = [
       'Une boutique e-commerce pensée pour valoriser plus de 1 500 références de jantes et accessoires, avec un parcours de personnalisation clair, rapide et centré sur la compatibilité produit.',
     videos: ['/videos/falco-racing-projet.mp4'],
   },
+  
 ]
 
 export const projects: Project[] = RAW_PROJECTS.map((p) => ({
