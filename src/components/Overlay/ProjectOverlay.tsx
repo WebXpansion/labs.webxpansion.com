@@ -5,7 +5,7 @@ import { gsap } from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { CustomEase } from 'gsap/CustomEase'
 import { posterFor, type Project } from '../../data/projects'
-import { isMobileDevice } from '../../utils/device'
+import { isMobileDevice, isSafariBrowser } from '../../utils/device'
 import { FadeVideo } from '../FadeVideo'
 
 gsap.registerPlugin(SplitText, CustomEase)
@@ -36,22 +36,27 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   // white background and text invisible. Only keep the filter mounted
   // while the open/close warp is actually animating.
   const [liquidFilterActive, setLiquidFilterActive] = useState(false)
-  // Mobile Safari struggles to composite a filtered container with an
-  // autoplaying <video> inside (see notes below) — rather than chase every
-  // edge case there, the liquid warp is simply disabled on mobile. Mobile
-  // gets the plain framer-motion fade/scale (already applied to both
-  // wrapping <motion.div>s below) and nothing else — simple and reliable.
-  const isMobile = useRef(isMobileDevice()).current
+  // Safari — mobile AND desktop — struggles to composite a filtered
+  // container with an autoplaying <video> inside (see notes below). On
+  // mobile it dropped the background/text entirely; on desktop Safari it
+  // shows up as the video and text appearing first, with the white overlay
+  // box popping in a beat later once the filtered layer catches up.
+  // Rather than chase every Safari compositing edge case, the liquid warp
+  // is simply disabled there — mobile and desktop Safari get the plain
+  // framer-motion fade/scale (already applied to both wrapping
+  // <motion.div>s below) and nothing else, simple and reliable.
+  const skipLiquidWarp = useRef(isMobileDevice() || isSafariBrowser()).current
 
   const LIQUID_SCALE = 130 // how strong the open/close distortion is
   const LIQUID_DURATION = 0.8
 
   // Liquid open: the card itself briefly warps through a turbulence-driven
   // displacement map, settling to perfectly flat as it lands — a one-shot
-  // "melting into place" reveal rather than a plain fade/scale. Desktop
-  // only (see isMobile above) — pure SVG filter + CSS, no WebGL involved.
+  // "melting into place" reveal rather than a plain fade/scale. Non-Safari
+  // desktop only (see skipLiquidWarp above) — pure SVG filter + CSS, no
+  // WebGL involved.
   useEffect(() => {
-    if (isMobile || !project || !liquidDisplacementRef.current) return
+    if (skipLiquidWarp || !project || !liquidDisplacementRef.current) return
     const el = liquidDisplacementRef.current
     setLiquidFilterActive(true)
     const proxy = { value: LIQUID_SCALE }
@@ -77,7 +82,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   // `project` to null, and the ref is still valid throughout that window.
   function closeWithLiquid() {
     const el = liquidDisplacementRef.current
-    if (!isMobile && el) {
+    if (!skipLiquidWarp && el) {
       setLiquidFilterActive(true)
       liquidTweenRef.current?.kill()
       const proxy = { value: Number(el.getAttribute('scale')) || 0 }
@@ -213,7 +218,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
             display: 'grid',
             gridTemplateColumns: 'minmax(280px, 380px) 1fr',
             boxShadow: '0 40px 120px rgba(0,0,0,0.5)',
-            filter: !isMobile && liquidFilterActive ? 'url(#project-overlay-liquid)' : 'none',
+            filter: !skipLiquidWarp && liquidFilterActive ? 'url(#project-overlay-liquid)' : 'none',
           }}
         >
           <button
